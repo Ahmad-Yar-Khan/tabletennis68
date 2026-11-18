@@ -51,7 +51,7 @@ export function SearchButton() {
               enterKeyHint="search"
               autoComplete="off"
               placeholder="Rackets, rubbers, brands…"
-              className="h-12 w-full rounded-pill border-2 border-line bg-subtle pr-4 pl-11 text-base outline-none placeholder:text-muted focus:border-table focus:bg-surface"
+              className="h-12 w-full rounded-pill border-2 border-line bg-paper pr-4 pl-11 text-base outline-none placeholder:text-muted focus:border-red focus:bg-white"
             />
           </div>
           <Button type="submit" className="hidden sm:inline-flex">

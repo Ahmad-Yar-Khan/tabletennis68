@@ -12,11 +12,12 @@ export type ButtonVariant =
 export type ButtonSize = "sm" | "md" | "lg" | "icon";
 
 const variantClasses: Record<ButtonVariant, string> = {
-  primary: "bg-rubber text-surface hover:bg-rubber-dark",
-  secondary: "bg-table text-surface hover:bg-table-dark",
+  primary: "bg-red text-white hover:bg-crimson active:bg-crimson",
+  secondary: "bg-ink text-white hover:bg-oxblood active:bg-oxblood",
   outline:
-    "border-2 border-ink/15 bg-surface text-ink hover:border-ink hover:bg-subtle",
-  ghost: "text-ink hover:bg-ink/5",
+    "border-2 border-ink/15 bg-white text-ink hover:border-ink hover:bg-paper",
+  // Inherits the surrounding text colour, so it works on light and dark backgrounds.
+  ghost: "hover:bg-current/10 active:bg-current/15",
   whatsapp: "bg-whatsapp text-ink hover:bg-whatsapp-dark",
 };
 
@@ -42,7 +43,7 @@ export function buttonVariants({
   className,
 }: VariantOptions = {}): string {
   return cn(
-    "inline-flex shrink-0 items-center justify-center rounded-pill font-semibold whitespace-nowrap transition-colors select-none",
+    "inline-flex shrink-0 items-center justify-center rounded-pill font-medium whitespace-nowrap transition select-none active:scale-[0.98]",
     "disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50",
     "[&_svg]:size-[1.15em] [&_svg]:shrink-0",
     variantClasses[variant],

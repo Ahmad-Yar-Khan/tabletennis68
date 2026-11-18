@@ -26,7 +26,7 @@ export function QuantityStepper({
 }: QuantityStepperProps) {
   const set = (next: number) => onChange(Math.min(max, Math.max(min, next)));
   const btn = cn(
-    "inline-flex items-center justify-center rounded-full text-ink transition-colors hover:bg-ink/5 disabled:pointer-events-none disabled:opacity-35",
+    "inline-flex items-center justify-center rounded-full text-ink transition-colors hover:bg-blush hover:text-crimson disabled:pointer-events-none disabled:opacity-35",
     size === "sm" ? "size-9" : "size-11",
   );
 
@@ -35,7 +35,7 @@ export function QuantityStepper({
       role="group"
       aria-label={label}
       className={cn(
-        "inline-flex items-center rounded-pill border-2 border-line bg-surface",
+        "inline-flex items-center rounded-pill border-2 border-line bg-white",
         className,
       )}
     >
@@ -51,7 +51,7 @@ export function QuantityStepper({
       <output
         aria-live="polite"
         className={cn(
-          "text-center font-semibold tabular-nums",
+          "text-center font-medium tabular-nums",
           size === "sm" ? "w-7 text-sm" : "w-9",
         )}
       >

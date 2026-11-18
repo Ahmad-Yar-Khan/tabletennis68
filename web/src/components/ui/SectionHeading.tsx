@@ -24,13 +24,20 @@ export function SectionHeading({
   return (
     <div className={cn("mb-6 flex items-end justify-between gap-4", className)}>
       <div className="min-w-0">
-        <Tag className="text-3xl uppercase sm:text-4xl">{title}</Tag>
+        <Tag className="flex items-center gap-3 text-3xl uppercase sm:text-4xl">
+          {/* Slanted red "table line" accent */}
+          <span
+            aria-hidden
+            className="inline-block h-[0.8em] w-1.5 shrink-0 -skew-x-12 rounded-[1px] bg-red"
+          />
+          {title}
+        </Tag>
         {subtitle && <p className="mt-1 text-muted">{subtitle}</p>}
       </div>
       {href && (
         <Link
           href={href}
-          className="group inline-flex min-h-11 shrink-0 items-center gap-1 rounded-md text-sm font-semibold text-table hover:text-table-dark"
+          className="group inline-flex min-h-11 shrink-0 items-center gap-1 rounded-md text-sm font-medium text-crimson transition-colors hover:text-ink"
         >
           {linkLabel}
           <span className="sr-only">: {title}</span>

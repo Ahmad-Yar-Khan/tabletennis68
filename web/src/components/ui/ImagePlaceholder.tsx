@@ -20,7 +20,7 @@ export function ImagePlaceholder({
   return (
     <div
       className={cn(
-        "flex w-full items-center justify-center bg-slate-100 text-slate-300",
+        "flex w-full items-center justify-center bg-paper text-line",
         !aspectRatio && "h-full",
         className,
       )}

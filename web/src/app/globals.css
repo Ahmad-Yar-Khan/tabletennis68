@@ -1,31 +1,23 @@
 @import "tailwindcss";
 
-/* Design tokens (CLAUDE.md → Design direction). Tweak here; Tailwind generates utilities. */
+/* Design tokens (CLAUDE.md → Design direction): layered shades of red. Tweak here; Tailwind generates utilities. */
 @theme {
-  /* Base: deep navy / near-black */
-  --color-ink: #0b1220;
-  --color-ink-800: #141d2f;
-  --color-ink-700: #1f2a40;
+  /* Core palette */
+  --color-ink: #0e0b0c; /* dark sections, hero, header on scroll, body text on light */
+  --color-oxblood: #3b0a10; /* footer, deep section backgrounds, dark borders */
+  --color-crimson: #9f1222; /* hover/pressed, red text on light backgrounds */
+  --color-red: #e11d2e; /* PRIMARY "rubber red": main buttons, sale prices, key accents (white text passes AA) */
+  --color-coral: #ff5a5f; /* accents on dark backgrounds, eyebrow text, highlights */
+  --color-blush: #ffe8e8; /* light tinted backgrounds, sale badge (with crimson text) */
+  --color-paper: #faf7f5; /* light page background for product sections */
+  --color-white: #ffffff; /* cards, photo backgrounds, the "ball" */
 
-  /* Surfaces and neutrals */
-  --color-surface: #ffffff;
-  --color-subtle: #f4f6f9; /* section backgrounds */
-  --color-line: #e3e7ee; /* borders, dividers */
-  --color-muted: #5b6577; /* secondary text (AA on white) */
-  --color-muted-light: #a9b3c4; /* secondary text on ink (AA) */
+  /* Supporting neutrals (warm, to sit with the reds) */
+  --color-line: #eadcd9; /* borders, dividers on light */
+  --color-muted: #6b5d5f; /* secondary text on white/paper (AA) */
+  --color-muted-light: #d4bfc1; /* secondary text on ink/oxblood (AA) */
 
-  /* Primary: rubber red (white text passes AA) */
-  --color-rubber: #d7262e;
-  --color-rubber-dark: #b51d24;
-
-  /* Secondary: table blue */
-  --color-table: #1554a6;
-  --color-table-dark: #0f4185;
-
-  /* Highlight: ball orange — sparingly, always with ink text */
-  --color-ball: #f28a1e;
-
-  /* WhatsApp green — with ink text (white on this green fails AA) */
+  /* WhatsApp green: kept for recognition, always with ink text (white on it fails AA) */
   --color-whatsapp: #25d366;
   --color-whatsapp-dark: #1ebe5b;
 
@@ -34,20 +26,34 @@
   --font-display:
     var(--font-heading), "Arial Narrow", ui-sans-serif, system-ui, sans-serif;
 
-  /* Radius */
-  --radius-card: 1rem;
-  --radius-pill: 9999px;
+  /* Shapes */
+  --radius-card: 1rem; /* 16px cards */
+  --radius-pill: 9999px; /* buttons, badges */
 
-  /* Shadows (subtle) */
-  --shadow-card: 0 1px 2px rgb(11 18 32 / 0.06), 0 1px 3px rgb(11 18 32 / 0.08);
+  /* Shadows (subtle, ink-tinted) */
+  --shadow-card: 0 1px 2px rgb(14 11 12 / 0.06), 0 1px 3px rgb(14 11 12 / 0.08);
   --shadow-lift:
-    0 4px 8px -2px rgb(11 18 32 / 0.08), 0 12px 24px -6px rgb(11 18 32 / 0.12);
+    0 4px 8px -2px rgb(14 11 12 / 0.1), 0 12px 24px -6px rgb(14 11 12 / 0.16);
   --shadow-header:
-    0 1px 0 rgb(11 18 32 / 0.06), 0 6px 16px rgb(11 18 32 / 0.08);
+    0 1px 0 rgb(14 11 12 / 0.08), 0 6px 16px rgb(14 11 12 / 0.18);
 
   /* Container widths (max-w-site, max-w-prose-narrow) */
   --container-site: 80rem;
   --container-prose-narrow: 42rem;
+}
+
+/* Motif: slanted section edge. Set --slant (default 2.5rem) for the drop height. */
+@utility slant-top {
+  clip-path: polygon(0 var(--slant, 2.5rem), 100% 0, 100% 100%, 0 100%);
+}
+
+@utility slant-bottom {
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% calc(100% - var(--slant, 2.5rem)),
+    0 100%
+  );
 }
 
 @layer base {
@@ -58,22 +64,24 @@
   }
 
   body {
-    background: var(--color-surface);
+    background: var(--color-paper);
     color: var(--color-ink);
   }
 
+  /* Display headings: Barlow Condensed italic; the slant reads as speed. */
   h1,
   h2,
   h3,
   h4 {
     font-family: var(--font-display);
-    font-weight: 700;
-    letter-spacing: -0.01em;
-    line-height: 1.1;
+    font-style: italic;
+    font-weight: 800;
+    letter-spacing: -0.005em;
+    line-height: 1.05;
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-table);
+    outline: 2px solid var(--color-red);
     outline-offset: 2px;
   }
 

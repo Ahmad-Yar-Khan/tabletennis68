@@ -105,7 +105,7 @@ export function Drawer({
         <div className="fixed inset-0 z-50" key="drawer">
           <m.div
             aria-hidden
-            className="absolute inset-0 bg-ink/60"
+            className="absolute inset-0 bg-ink/70"
             onClick={onClose}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -119,7 +119,7 @@ export function Drawer({
             aria-labelledby={titleId}
             tabIndex={-1}
             className={cn(
-              "absolute flex flex-col bg-surface shadow-lift outline-none",
+              "absolute flex flex-col bg-white text-ink shadow-lift outline-none",
               panelPosition[side],
               className,
             )}
@@ -137,15 +137,23 @@ export function Drawer({
             >
               <h2
                 id={titleId}
-                className={cn("text-2xl uppercase", hideTitle && "sr-only")}
+                className={cn(
+                  "flex items-center gap-2.5 text-2xl uppercase",
+                  hideTitle && "sr-only",
+                )}
               >
+                {/* Slanted red "table line" accent */}
+                <span
+                  aria-hidden
+                  className="inline-block h-5 w-1.5 -skew-x-12 rounded-[1px] bg-red"
+                />
                 {title}
               </h2>
               <button
                 type="button"
                 onClick={onClose}
                 aria-label="Close"
-                className="-mr-2 inline-flex size-11 items-center justify-center rounded-full text-ink hover:bg-ink/5"
+                className="-mr-2 inline-flex size-11 items-center justify-center rounded-full text-ink transition-colors hover:bg-blush hover:text-crimson"
               >
                 <X aria-hidden className="size-6" />
               </button>

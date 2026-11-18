@@ -21,7 +21,7 @@ export function EnquiryButton({ count = 0 }: { count?: number }) {
       {count > 0 && (
         <span
           aria-hidden
-          className="absolute top-1 right-0.5 flex h-5 min-w-5 items-center justify-center rounded-pill bg-rubber px-1 text-[0.6875rem] leading-none font-bold text-surface tabular-nums"
+          className="absolute top-1 right-0.5 flex h-5 min-w-5 items-center justify-center rounded-pill bg-red px-1 text-[0.6875rem] leading-none font-medium text-white tabular-nums"
         >
           {count > 99 ? "99+" : count}
         </span>

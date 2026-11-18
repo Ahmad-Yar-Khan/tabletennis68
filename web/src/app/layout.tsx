@@ -11,16 +11,20 @@ import type { Category, SiteSettings } from "@/lib/types";
 import { SITE_URL } from "@/lib/utils";
 import "./globals.css";
 
+// Body and UI text: Inter 400 (regular) and 500 (medium) only.
 const body = Inter({
   variable: "--font-body",
   subsets: ["latin"],
+  weight: ["400", "500"],
   display: "swap",
 });
 
+// Display headings: Barlow Condensed 700/800 italic.
 const heading = Barlow_Condensed({
   variable: "--font-heading",
   subsets: ["latin"],
-  weight: ["600", "700", "800"],
+  weight: ["700", "800"],
+  style: ["italic"],
   display: "swap",
 });
 
@@ -64,7 +68,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
         <MotionProvider>
           <a
             href="#main"
-            className="sr-only z-50 rounded-pill bg-ink px-4 py-2 text-surface focus:not-sr-only focus:fixed focus:top-2 focus:left-2"
+            className="sr-only z-50 rounded-pill bg-ink px-4 py-2 font-medium text-white focus:not-sr-only focus:fixed focus:top-2 focus:left-2"
           >
             Skip to content
           </a>

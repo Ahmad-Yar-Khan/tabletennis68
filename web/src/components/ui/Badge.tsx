@@ -10,15 +10,15 @@ type BadgeProps = { className?: string } & (
 );
 
 const styles = {
-  sale: "bg-rubber text-surface",
-  new: "bg-ball text-ink",
-  "out-of-stock": "bg-ink-700 text-surface",
+  sale: "bg-blush text-crimson",
+  new: "bg-red text-white",
+  "out-of-stock": "bg-ink text-white",
 } as const;
 
 /** Small product label: Sale (with % off), New, or Out of stock. */
 export function Badge({ variant, percent, className }: BadgeProps) {
   const base = cn(
-    "inline-flex items-center rounded-pill px-2.5 py-1 font-display text-xs leading-none font-bold tracking-wide uppercase",
+    "inline-flex items-center rounded-pill px-2.5 py-1 font-display text-sm leading-none font-bold tracking-wide uppercase italic",
     styles[variant],
     className,
   );

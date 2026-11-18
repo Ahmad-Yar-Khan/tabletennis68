@@ -22,7 +22,7 @@ export function FloatingWhatsAppButton({
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Chat with us on WhatsApp"
-      className="fixed right-4 bottom-[calc(1rem+env(safe-area-inset-bottom)+var(--fab-offset,0px))] z-30 inline-flex size-14 items-center justify-center rounded-full bg-whatsapp text-ink shadow-lift transition-transform hover:scale-105 active:scale-95 sm:right-6 sm:bottom-[calc(1.5rem+var(--fab-offset,0px))]"
+      className="fixed right-4 bottom-[calc(1rem+env(safe-area-inset-bottom)+var(--fab-offset,0px))] z-30 inline-flex size-14 items-center justify-center rounded-full bg-whatsapp text-ink shadow-lift ring-2 ring-white transition-transform hover:scale-105 active:scale-95 sm:right-6 sm:bottom-[calc(1.5rem+var(--fab-offset,0px))]"
     >
       <WhatsAppIcon className="size-7" />
     </a>

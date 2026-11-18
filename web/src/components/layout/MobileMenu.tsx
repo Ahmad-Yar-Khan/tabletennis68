@@ -74,7 +74,7 @@ export function MobileMenu({
 
           {categories.length > 0 && (
             <>
-              <p className="mt-4 px-3 pb-1 text-xs font-semibold tracking-wider text-muted uppercase">
+              <p className="mt-4 px-3 pb-1 text-xs font-medium tracking-wider text-muted uppercase">
                 Categories
               </p>
               <ul>
@@ -123,8 +123,8 @@ function MenuLink({
         onClick={onClick}
         className={
           strong
-            ? "flex min-h-12 items-center justify-between rounded-lg px-3 font-display text-xl font-semibold tracking-wide uppercase hover:bg-subtle"
-            : "flex min-h-11 items-center justify-between rounded-lg px-3 hover:bg-subtle"
+            ? "flex min-h-12 items-center justify-between rounded-lg px-3 font-display text-xl font-bold tracking-wide uppercase italic transition-colors hover:bg-paper hover:text-crimson"
+            : "flex min-h-11 items-center justify-between rounded-lg px-3 transition-colors hover:bg-paper hover:text-crimson"
         }
       >
         <span>{label}</span>

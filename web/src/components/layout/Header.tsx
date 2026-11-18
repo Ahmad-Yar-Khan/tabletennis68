@@ -23,7 +23,8 @@ export function Header({ categories, settings }: HeaderProps) {
           shopName={settings?.shopName || "tabletennis68"}
         />
         <div className="origin-left transition-transform duration-300 group-data-[scrolled=true]:scale-90">
-          <Logo />
+          {/* text-inherit: follows the header's light/dark colour */}
+          <Logo className="text-inherit" />
         </div>
         <DesktopNav categories={categories} className="ml-8 hidden lg:block" />
         <div className="ml-auto flex items-center gap-1 sm:gap-2">

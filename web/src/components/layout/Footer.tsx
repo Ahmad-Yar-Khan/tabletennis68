@@ -16,7 +16,7 @@ type FooterProps = {
 };
 
 const linkClass =
-  "inline-flex min-h-10 items-center gap-2.5 rounded-md text-muted-light transition-colors hover:text-surface";
+  "inline-flex min-h-10 items-center gap-2.5 rounded-md text-muted-light transition-colors hover:text-white";
 
 /** Shows "+92 300 1234567" style text for a 92-prefixed number; otherwise the number as entered. */
 function displayPhone(value: string): string {
@@ -32,7 +32,7 @@ export function Footer({ categories, settings }: FooterProps) {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="bg-ink text-surface">
+    <footer className="bg-oxblood pt-6 text-white [--slant:1.5rem] slant-top sm:pt-10 sm:[--slant:2.5rem]">
       <Container className="grid gap-10 py-12 sm:grid-cols-2 lg:grid-cols-4 lg:py-16">
         {/* Shop info */}
         <div>
@@ -71,7 +71,7 @@ export function Footer({ categories, settings }: FooterProps) {
               <li>
                 <Link
                   href="/shop/"
-                  className={cn(linkClass, "font-semibold text-surface")}
+                  className={cn(linkClass, "font-medium text-white")}
                 >
                   All products
                 </Link>
@@ -144,7 +144,7 @@ export function Footer({ categories, settings }: FooterProps) {
             <li>
               <Link
                 href="/contact/"
-                className={cn(linkClass, "font-semibold text-surface")}
+                className={cn(linkClass, "font-medium text-white")}
               >
                 Contact page
               </Link>
@@ -176,7 +176,7 @@ export function Footer({ categories, settings }: FooterProps) {
       </Container>
 
       {/* Extra bottom padding on phones keeps the floating WhatsApp button off this text. */}
-      <div className="border-t border-surface/10">
+      <div className="border-t border-white/15">
         <Container className="py-5 pr-24 text-xs text-muted-light sm:pr-8">
           © {year} {shopName}. All rights reserved.
         </Container>
@@ -216,7 +216,7 @@ function SocialLink({
         target="_blank"
         rel="noopener noreferrer"
         aria-label={label}
-        className="inline-flex size-11 items-center justify-center rounded-full bg-surface/10 text-surface transition-colors hover:bg-rubber"
+        className="inline-flex size-11 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-red"
       >
         {children}
       </a>

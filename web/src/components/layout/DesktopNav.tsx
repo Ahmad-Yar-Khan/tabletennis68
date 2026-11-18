@@ -9,7 +9,8 @@ import type { Category } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 const linkClass =
-  "inline-flex h-11 items-center gap-1 rounded-md px-3 font-display text-lg font-semibold tracking-wide uppercase transition-colors hover:text-rubber aria-[current=page]:text-rubber";
+  // Colours come from the header's CSS variables (StickyHeader), so they flip when it turns dark.
+  "inline-flex h-11 items-center gap-1 rounded-md px-3 font-display text-lg font-bold tracking-wide uppercase italic transition-colors hover:text-(--hdr-accent) aria-[current=page]:text-(--hdr-accent)";
 
 /** "/shop" and "/shop/" both become "/shop/", so prefix checks work either way. */
 function withSlash(path: string): string {
@@ -77,7 +78,7 @@ export function DesktopNav({
             aria-expanded={open}
             aria-controls={menuId}
             onClick={() => setOpen((v) => !v)}
-            className={cn(linkClass, inCategory && "text-rubber")}
+            className={cn(linkClass, inCategory && "text-(--hdr-accent)")}
           >
             Categories
             <ChevronDown
@@ -96,7 +97,7 @@ export function DesktopNav({
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -6 }}
                 transition={{ duration: 0.16 }}
-                className="absolute top-full left-0 z-50 mt-2 w-[30rem] rounded-card border border-line bg-surface p-3 shadow-lift"
+                className="absolute top-full left-0 z-50 mt-2 w-[30rem] rounded-card border border-line bg-white p-3 text-ink shadow-lift"
               >
                 <ul className="grid grid-cols-2 gap-1">
                   {categories.map((c) => (
@@ -105,7 +106,7 @@ export function DesktopNav({
                         href={`/category/${c.slug}/`}
                         onClick={() => setOpen(false)}
                         aria-current={current(`/category/${c.slug}/`)}
-                        className="flex min-h-11 items-center justify-between gap-2 rounded-lg px-3 py-2 font-medium hover:bg-subtle aria-[current=page]:text-rubber"
+                        className="flex min-h-11 items-center justify-between gap-2 rounded-lg px-3 py-2 font-medium transition-colors hover:bg-paper hover:text-crimson aria-[current=page]:text-crimson"
                       >
                         <span>{c.name}</span>
                         <span className="text-sm text-muted tabular-nums">
@@ -118,7 +119,7 @@ export function DesktopNav({
                 <Link
                   href="/shop/"
                   onClick={() => setOpen(false)}
-                  className="mt-2 flex min-h-11 items-center justify-center rounded-lg bg-subtle px-3 font-semibold text-table hover:text-table-dark"
+                  className="mt-2 flex min-h-11 items-center justify-center rounded-pill bg-blush px-3 font-medium text-crimson transition-colors hover:bg-red hover:text-white"
                 >
                   Browse all products
                 </Link>
