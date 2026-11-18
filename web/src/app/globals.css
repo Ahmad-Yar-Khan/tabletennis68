@@ -2,16 +2,89 @@
 
 /* Design tokens (CLAUDE.md → Design direction). Tweak here; Tailwind generates utilities. */
 @theme {
-  --color-ink: #0b1220; /* deep navy / near-black base */
-  --color-surface: #ffffff;
-  --color-rubber: #d7262e; /* primary accent: rubber red */
-  --color-table: #1554a6; /* secondary: table blue */
-  --color-ball: #f28a1e; /* sparing highlight: ball orange */
+  /* Base: deep navy / near-black */
+  --color-ink: #0b1220;
+  --color-ink-800: #141d2f;
+  --color-ink-700: #1f2a40;
 
+  /* Surfaces and neutrals */
+  --color-surface: #ffffff;
+  --color-subtle: #f4f6f9; /* section backgrounds */
+  --color-line: #e3e7ee; /* borders, dividers */
+  --color-muted: #5b6577; /* secondary text (AA on white) */
+  --color-muted-light: #a9b3c4; /* secondary text on ink (AA) */
+
+  /* Primary: rubber red (white text passes AA) */
+  --color-rubber: #d7262e;
+  --color-rubber-dark: #b51d24;
+
+  /* Secondary: table blue */
+  --color-table: #1554a6;
+  --color-table-dark: #0f4185;
+
+  /* Highlight: ball orange — sparingly, always with ink text */
+  --color-ball: #f28a1e;
+
+  /* WhatsApp green — with ink text (white on this green fails AA) */
+  --color-whatsapp: #25d366;
+  --color-whatsapp-dark: #1ebe5b;
+
+  /* Fonts (CSS variables come from next/font in app/layout.tsx) */
   --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  --font-display:
+    var(--font-heading), "Arial Narrow", ui-sans-serif, system-ui, sans-serif;
+
+  /* Radius */
+  --radius-card: 1rem;
+  --radius-pill: 9999px;
+
+  /* Shadows (subtle) */
+  --shadow-card: 0 1px 2px rgb(11 18 32 / 0.06), 0 1px 3px rgb(11 18 32 / 0.08);
+  --shadow-lift:
+    0 4px 8px -2px rgb(11 18 32 / 0.08), 0 12px 24px -6px rgb(11 18 32 / 0.12);
+  --shadow-header:
+    0 1px 0 rgb(11 18 32 / 0.06), 0 6px 16px rgb(11 18 32 / 0.08);
+
+  /* Container widths (max-w-site, max-w-prose-narrow) */
+  --container-site: 80rem;
+  --container-prose-narrow: 42rem;
 }
 
-body {
-  background: var(--color-surface);
-  color: var(--color-ink);
+@layer base {
+  html {
+    /* Keeps anchor targets clear of the sticky header. */
+    scroll-padding-top: 5rem;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    background: var(--color-surface);
+    color: var(--color-ink);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-table);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
 }
