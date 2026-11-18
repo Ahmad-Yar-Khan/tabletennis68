@@ -1,0 +1,17 @@
+@import "tailwindcss";
+
+/* Design tokens (CLAUDE.md → Design direction). Tweak here; Tailwind generates utilities. */
+@theme {
+  --color-ink: #0b1220; /* deep navy / near-black base */
+  --color-surface: #ffffff;
+  --color-rubber: #d7262e; /* primary accent: rubber red */
+  --color-table: #1554a6; /* secondary: table blue */
+  --color-ball: #f28a1e; /* sparing highlight: ball orange */
+
+  --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+}
+
+body {
+  background: var(--color-surface);
+  color: var(--color-ink);
+}
