@@ -6,18 +6,18 @@ import { useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Drawer } from "@/components/ui/Drawer";
 import { WhatsAppIcon } from "@/components/ui/icons/WhatsAppIcon";
-import type { Category } from "@/lib/types";
+import type { Brand, Category } from "@/lib/types";
 import { buildWhatsAppLink, greetingMessage } from "@/lib/whatsapp";
 
 type MobileMenuProps = {
   categories: Category[];
+  brands: Brand[];
   whatsappNumber: string | null;
   shopName: string;
 };
 
 const mainLinks = [
   { href: "/shop/", label: "Shop all products" },
-  { href: "/#brands", label: "Brands" },
   { href: "/about/", label: "About us" },
   { href: "/contact/", label: "Contact" },
 ];
@@ -25,6 +25,7 @@ const mainLinks = [
 /** Hamburger button (below lg) that opens the site menu in a left drawer. */
 export function MobileMenu({
   categories,
+  brands,
   whatsappNumber,
   shopName,
 }: MobileMenuProps) {
@@ -84,6 +85,25 @@ export function MobileMenu({
                     href={`/category/${c.slug}/`}
                     label={c.name}
                     meta={c.productCount}
+                    onClick={close}
+                  />
+                ))}
+              </ul>
+            </>
+          )}
+
+          {brands.length > 0 && (
+            <>
+              <p className="mt-4 px-3 pb-1 text-xs font-medium tracking-wider text-muted uppercase">
+                Brands
+              </p>
+              <ul>
+                {brands.map((b) => (
+                  <MenuLink
+                    key={b._id}
+                    href={`/brand/${b.slug}/`}
+                    label={b.name}
+                    meta={b.productCount}
                     onClick={close}
                   />
                 ))}

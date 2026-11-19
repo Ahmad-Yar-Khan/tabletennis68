@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { ListingHero } from "@/components/shop/ListingHero";
 import { ProductBrowser } from "@/components/shop/ProductBrowser";
 import { Container } from "@/components/ui/Container";
+import { productCountLabel } from "@/lib/shop";
 import { sanityFetch } from "@/lib/sanity/client";
 import {
   allProductsQuery,
@@ -36,12 +37,15 @@ export async function generateMetadata({
   const { slug } = await params;
   const category = await getCategory(slug);
   if (!category) return {};
+  const title = `Table tennis ${category.name.toLowerCase()} in Pakistan`;
+  const description =
+    category.description ||
+    `Shop ${productCountLabel(category.productCount)} in ${category.name.toLowerCase()}, with prices in Rs. Filter by brand and price, then order on WhatsApp.`;
   return {
-    title: category.name,
-    description:
-      category.description ||
-      `Shop ${category.name.toLowerCase()} in Pakistan. Filter by brand and price, then order on WhatsApp.`,
+    title,
+    description,
     alternates: { canonical: `/category/${slug}/` },
+    openGraph: { title, description, url: `/category/${slug}/` },
   };
 }
 
@@ -66,6 +70,7 @@ export default async function CategoryPage({
       <ListingHero
         title={category.name}
         description={category.description}
+        meta={productCountLabel(inCategory.length)}
         breadcrumbs={[{ href: "/shop/", label: "Shop" }]}
       />
       <Container className="py-6 sm:py-8 lg:py-10">

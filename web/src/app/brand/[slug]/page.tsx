@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { BrandLogoBadge } from "@/components/shop/BrandLogoBadge";
 import { ListingHero } from "@/components/shop/ListingHero";
 import { ProductBrowser } from "@/components/shop/ProductBrowser";
 import { Container } from "@/components/ui/Container";
+import { productCountLabel } from "@/lib/shop";
 import { sanityFetch } from "@/lib/sanity/client";
 import {
   allProductsQuery,
@@ -36,10 +38,13 @@ export async function generateMetadata({
   const { slug } = await params;
   const brand = await getBrand(slug);
   if (!brand) return {};
+  const title = `${brand.name} table tennis equipment in Pakistan`;
+  const description = `Shop ${productCountLabel(brand.productCount)} from ${brand.name} in Pakistan, with prices in Rs. Filter by category and price, then order on WhatsApp.`;
   return {
-    title: `${brand.name} table tennis equipment`,
-    description: `Shop ${brand.name} table tennis equipment in Pakistan. Filter by category and price, then order on WhatsApp.`,
+    title,
+    description,
     alternates: { canonical: `/brand/${slug}/` },
+    openGraph: { title, description, url: `/brand/${slug}/` },
   };
 }
 
@@ -64,7 +69,10 @@ export default async function BrandPage({
       <ListingHero
         eyebrow="Brand"
         title={brand.name}
+        description={`Every ${brand.name} product we stock. Pick what you need and order on WhatsApp.`}
+        meta={productCountLabel(byBrand.length)}
         breadcrumbs={[{ href: "/shop/", label: "Shop" }]}
+        aside={<BrandLogoBadge brand={brand} />}
       />
       <Container className="py-6 sm:py-8 lg:py-10">
         <ProductBrowser

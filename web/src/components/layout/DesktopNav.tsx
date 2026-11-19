@@ -1,12 +1,9 @@
 "use client";
 
-import { ChevronDown } from "lucide-react";
-import { AnimatePresence, m } from "motion/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useId, useRef, useState } from "react";
-import type { Category } from "@/lib/types";
-import { cn } from "@/lib/utils";
+import type { Brand, Category } from "@/lib/types";
+import { NavDropdown } from "./NavDropdown";
 
 const linkClass =
   // Colours come from the header's CSS variables (StickyHeader), so they flip when it turns dark.
@@ -17,34 +14,19 @@ function withSlash(path: string): string {
   return path.endsWith("/") ? path : `${path}/`;
 }
 
-/** Desktop navigation (lg and up): Shop, Categories dropdown, Brands, Contact. */
+/** Desktop navigation (lg and up): Shop, Categories dropdown, Brands dropdown, Contact. */
 export function DesktopNav({
   categories,
+  brands,
   className,
 }: {
   categories: Category[];
+  brands: Brand[];
   className?: string;
 }) {
-  const pathname = usePathname();
-  const [open, setOpen] = useState(false);
-  const wrapperRef = useRef<HTMLLIElement>(null);
-  const buttonRef = useRef<HTMLButtonElement>(null);
-  const menuId = useId();
-
-  // Close on outside click.
-  useEffect(() => {
-    if (!open) return;
-    const onPointerDown = (e: PointerEvent) => {
-      if (!wrapperRef.current?.contains(e.target as Node)) setOpen(false);
-    };
-    document.addEventListener("pointerdown", onPointerDown);
-    return () => document.removeEventListener("pointerdown", onPointerDown);
-  }, [open]);
-
-  const path = withSlash(pathname);
+  const path = withSlash(usePathname());
   const current = (href: string) =>
     path.startsWith(href) ? "page" : undefined;
-  const inCategory = path.startsWith("/category/");
 
   return (
     <nav aria-label="Main" className={className}>
@@ -58,80 +40,36 @@ export function DesktopNav({
             Shop
           </Link>
         </li>
-        <li
-          ref={wrapperRef}
-          className="relative"
-          onKeyDown={(e) => {
-            if (e.key === "Escape" && open) {
-              setOpen(false);
-              buttonRef.current?.focus();
-            }
-          }}
-          onBlur={(e) => {
-            if (!e.currentTarget.contains(e.relatedTarget as Node | null))
-              setOpen(false);
-          }}
-        >
-          <button
-            ref={buttonRef}
-            type="button"
-            aria-expanded={open}
-            aria-controls={menuId}
-            onClick={() => setOpen((v) => !v)}
-            className={cn(linkClass, inCategory && "text-(--hdr-accent)")}
-          >
-            Categories
-            <ChevronDown
-              aria-hidden
-              className={cn(
-                "size-4 transition-transform",
-                open && "rotate-180",
-              )}
-            />
-          </button>
-          <AnimatePresence>
-            {open && (
-              <m.div
-                id={menuId}
-                initial={{ opacity: 0, y: -6 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -6 }}
-                transition={{ duration: 0.16 }}
-                className="absolute top-full left-0 z-50 mt-2 w-[30rem] rounded-card border border-line bg-white p-3 text-ink shadow-lift"
-              >
-                <ul className="grid grid-cols-2 gap-1">
-                  {categories.map((c) => (
-                    <li key={c._id}>
-                      <Link
-                        href={`/category/${c.slug}/`}
-                        onClick={() => setOpen(false)}
-                        aria-current={current(`/category/${c.slug}/`)}
-                        className="flex min-h-11 items-center justify-between gap-2 rounded-lg px-3 py-2 font-medium transition-colors hover:bg-paper hover:text-crimson aria-[current=page]:text-crimson"
-                      >
-                        <span>{c.name}</span>
-                        <span className="text-sm text-muted tabular-nums">
-                          {c.productCount}
-                        </span>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-                <Link
-                  href="/shop/"
-                  onClick={() => setOpen(false)}
-                  className="mt-2 flex min-h-11 items-center justify-center rounded-pill bg-blush px-3 font-medium text-crimson transition-colors hover:bg-red hover:text-white"
-                >
-                  Browse all products
-                </Link>
-              </m.div>
-            )}
-          </AnimatePresence>
-        </li>
-        <li>
-          <Link href="/#brands" className={linkClass}>
-            Brands
-          </Link>
-        </li>
+        {categories.length > 0 && (
+          <NavDropdown
+            label="Categories"
+            items={categories.map((c) => ({
+              key: c._id,
+              href: `/category/${c.slug}/`,
+              label: c.name,
+              count: c.productCount,
+            }))}
+            footerLink={{ href: "/shop/", label: "Browse all products" }}
+            active={path.startsWith("/category/")}
+            current={current}
+            buttonClassName={linkClass}
+          />
+        )}
+        {brands.length > 0 && (
+          <NavDropdown
+            label="Brands"
+            items={brands.map((b) => ({
+              key: b._id,
+              href: `/brand/${b.slug}/`,
+              label: b.name,
+              count: b.productCount,
+            }))}
+            footerLink={{ href: "/shop/", label: "Browse all products" }}
+            active={path.startsWith("/brand/")}
+            current={current}
+            buttonClassName={linkClass}
+          />
+        )}
         <li>
           <Link
             href="/contact/"

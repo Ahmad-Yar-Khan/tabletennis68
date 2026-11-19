@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { ListingHero } from "@/components/shop/ListingHero";
 import { ProductBrowser } from "@/components/shop/ProductBrowser";
+import { ShopShortcuts } from "@/components/shop/ShopShortcuts";
 import { Container } from "@/components/ui/Container";
 import { sanityFetch } from "@/lib/sanity/client";
 import {
@@ -39,6 +40,9 @@ export default async function ShopPage() {
         title="Shop"
         description="Rackets, blades, rubbers and everything else for your game. Order any item on WhatsApp."
       />
+      <Container className="pt-6 sm:pt-8">
+        <ShopShortcuts categories={categories} brands={brands} />
+      </Container>
       <Container className="py-6 sm:py-8 lg:py-10">
         <ProductBrowser
           products={products}

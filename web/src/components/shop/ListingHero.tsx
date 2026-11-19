@@ -8,9 +8,11 @@ type ListingHeroProps = {
   title: string;
   eyebrow?: string;
   description?: string | null;
+  /** Small line under the title, e.g. "24 products". */
+  meta?: string;
   /** Links before the current page, e.g. [{ href: "/shop/", label: "Shop" }]. */
   breadcrumbs?: Crumb[];
-  /** Extra content on the right on desktop (e.g. a brand logo). */
+  /** Extra content: below the text on phones, on the right from sm up (e.g. a brand logo). */
   aside?: ReactNode;
 };
 
@@ -19,6 +21,7 @@ export function ListingHero({
   title,
   eyebrow,
   description,
+  meta,
   breadcrumbs = [],
   aside,
 }: ListingHeroProps) {
@@ -30,7 +33,7 @@ export function ListingHero({
         <div className="absolute inset-x-0 top-1/2 h-px bg-white/[0.06]" />
         <div className="absolute -top-24 -right-24 size-72 rounded-full bg-red/20 blur-3xl" />
       </div>
-      <Container className="relative flex items-end justify-between gap-6">
+      <Container className="relative flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between sm:gap-6">
         <div className="min-w-0">
           {breadcrumbs.length > 0 && (
             <nav aria-label="Breadcrumb" className="mb-3 text-sm">
@@ -42,7 +45,7 @@ export function ListingHero({
                 </li>
                 {breadcrumbs.map((crumb) => (
                   <li key={crumb.href} className="flex items-center gap-1.5">
-                    <span aria-hidden>/</span>
+                    <span aria-hidden>›</span>
                     <Link
                       href={crumb.href}
                       className="transition-colors hover:text-white"
@@ -52,7 +55,7 @@ export function ListingHero({
                   </li>
                 ))}
                 <li className="flex items-center gap-1.5">
-                  <span aria-hidden>/</span>
+                  <span aria-hidden>›</span>
                   <span aria-current="page" className="text-white">
                     {title}
                   </span>
@@ -71,8 +74,14 @@ export function ListingHero({
               {description}
             </p>
           )}
+          {meta && (
+            <p className="mt-3 inline-flex items-center gap-2 text-sm font-medium text-white/90 tabular-nums">
+              <span aria-hidden className="h-0.5 w-6 bg-coral" />
+              {meta}
+            </p>
+          )}
         </div>
-        {aside && <div className="hidden shrink-0 sm:block">{aside}</div>}
+        {aside && <div className="shrink-0">{aside}</div>}
       </Container>
     </div>
   );

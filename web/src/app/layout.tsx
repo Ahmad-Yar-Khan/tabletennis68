@@ -6,8 +6,12 @@ import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { MotionProvider } from "@/components/ui/MotionProvider";
 import { sanityFetch } from "@/lib/sanity/client";
-import { categoriesQuery, siteSettingsQuery } from "@/lib/sanity/queries";
-import type { Category, SiteSettings } from "@/lib/types";
+import {
+  brandsQuery,
+  categoriesQuery,
+  siteSettingsQuery,
+} from "@/lib/sanity/queries";
+import type { Brand, Category, SiteSettings } from "@/lib/types";
 import { SITE_URL } from "@/lib/utils";
 import "./globals.css";
 
@@ -53,9 +57,10 @@ export const viewport: Viewport = {
 
 export default async function RootLayout({ children }: LayoutProps<"/">) {
   // Fetched once at build time; every page gets the same header/footer data.
-  const [settings, categories] = await Promise.all([
+  const [settings, categories, brands] = await Promise.all([
     sanityFetch<SiteSettings | null>(siteSettingsQuery),
     sanityFetch<Category[]>(categoriesQuery),
+    sanityFetch<Brand[]>(brandsQuery),
   ]);
   const shopName = settings?.shopName || "tabletennis68";
 
@@ -73,7 +78,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
             Skip to content
           </a>
           <AnnouncementBar text={settings?.announcementText} />
-          <Header categories={categories} settings={settings} />
+          <Header categories={categories} brands={brands} settings={settings} />
           <main id="main" className="flex-1">
             {children}
           </main>
