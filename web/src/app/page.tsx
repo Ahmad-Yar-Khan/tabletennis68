@@ -1,53 +1,62 @@
-import { Badge } from "@/components/ui/Badge";
-import { Button } from "@/components/ui/Button";
-import { Container } from "@/components/ui/Container";
-import { SectionHeading } from "@/components/ui/SectionHeading";
+import { FeaturedProducts } from "@/components/home/FeaturedProducts";
+import { HeroBanner } from "@/components/home/HeroBanner";
+import { NewArrivals } from "@/components/home/NewArrivals";
+import { ShopByBrand } from "@/components/home/ShopByBrand";
+import { ShopByCategory } from "@/components/home/ShopByCategory";
+import { StoreLocationStrip } from "@/components/home/StoreLocationStrip";
+import { WhyBuyFromUs } from "@/components/home/WhyBuyFromUs";
+import { sanityFetch } from "@/lib/sanity/client";
+import {
+  activeBannersQuery,
+  allProductsQuery,
+  brandsQuery,
+  categoriesQuery,
+  siteSettingsQuery,
+} from "@/lib/sanity/queries";
+import type {
+  Banner,
+  Brand,
+  Category,
+  ProductListItem,
+  SiteSettings,
+} from "@/lib/types";
 
-// Placeholder until the home page step: shows the design system inside the new layout.
-export default function Home() {
+const MAX_NEW = 8;
+const MAX_FEATURED = 8;
+
+/** Home page. All data is fetched once at build time and passed down; empty sections hide themselves. */
+export default async function Home() {
+  const [banners, products, categories, brands, settings] = await Promise.all([
+    sanityFetch<Banner[]>(activeBannersQuery),
+    sanityFetch<ProductListItem[]>(allProductsQuery),
+    sanityFetch<Category[]>(categoriesQuery),
+    sanityFetch<Brand[]>(brandsQuery),
+    sanityFetch<SiteSettings | null>(siteSettingsQuery),
+  ]);
+
+  const newArrivals = products
+    .filter((p) => p.isNew)
+    .sort((a, b) => b._createdAt.localeCompare(a._createdAt))
+    .slice(0, MAX_NEW);
+  // Already in the owner's sort order from the query.
+  const featured = products.filter((p) => p.featured).slice(0, MAX_FEATURED);
+  // Skip empty categories/brands so no tile leads to an empty page.
+  const shopCategories = categories.filter((c) => c.productCount > 0);
+  const shopBrands = brands.filter((b) => b.productCount > 0);
+
   return (
     <>
-      <section className="relative overflow-hidden bg-ink text-white [--slant:1.5rem] slant-bottom sm:[--slant:3rem]">
-        {/* Faint "table lines": the centre line and the side edges of a table seen from above. */}
-        <div aria-hidden className="pointer-events-none absolute inset-0">
-          <div className="absolute inset-y-0 left-1/2 w-px bg-white/10" />
-          <div className="absolute inset-x-0 top-1/2 h-px bg-white/5" />
-          <div className="absolute inset-y-0 left-4 w-px bg-white/5 sm:left-8" />
-          <div className="absolute inset-y-0 right-4 w-px bg-white/5 sm:right-8" />
-        </div>
-        <Container className="relative py-16 pb-20 sm:py-24 sm:pb-32">
-          <p className="font-display text-lg font-bold tracking-wider text-coral uppercase italic">
-            Coming soon
-          </p>
-          <h1 className="mt-2 max-w-3xl text-5xl uppercase sm:text-7xl">
-            Gear up. <span className="text-red">Play faster.</span>
-          </h1>
-          <p className="mt-4 max-w-xl text-lg text-muted-light">
-            Rackets, blades, rubbers and more. Order on WhatsApp.
-          </p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Button href="/shop/" size="lg">
-              Shop now
-            </Button>
-            <Button href="/contact/" size="lg" variant="outline">
-              Contact us
-            </Button>
-          </div>
-        </Container>
-      </section>
-
-      <Container as="section" className="py-12">
-        <SectionHeading
-          title="Shop by category"
-          subtitle="Coming in the next step."
-          href="/shop/"
-        />
-        <div className="flex flex-wrap gap-2">
-          <Badge variant="sale" percent={20} />
-          <Badge variant="new" />
-          <Badge variant="out-of-stock" />
-        </div>
-      </Container>
+      <HeroBanner
+        banners={banners}
+        whatsappNumber={settings?.whatsappNumber ?? null}
+        shopName={settings?.shopName || "tabletennis68"}
+      />
+      <ShopByCategory categories={shopCategories} />
+      <NewArrivals products={newArrivals} />
+      <FeaturedProducts products={featured} />
+      <ShopByBrand brands={shopBrands} />
+      <WhyBuyFromUs />
+      <StoreLocationStrip settings={settings} />
     </>
   );
 }

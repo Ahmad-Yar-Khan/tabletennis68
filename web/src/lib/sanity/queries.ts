@@ -40,7 +40,8 @@ const productCardFields = /* groq */ `
   sortOrder,
   "category": category->{ name, "slug": slug.current },
   "brand": brand->{ name, "slug": slug.current },
-  "image": images[0]{ ${imageFields} }
+  "image": images[0]{ ${imageFields} },
+  "hoverImage": images[1]{ ${imageFields} }
 `;
 
 // --- Products ----------------------------------------------------------------

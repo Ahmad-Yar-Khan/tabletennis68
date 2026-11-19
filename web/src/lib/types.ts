@@ -59,6 +59,8 @@ export type ProductListItem = {
   brand: BrandRef | null;
   /** Main (first) photo, or null when the product has no photos yet. */
   image: SanityImage | null;
+  /** Second photo, shown when hovering a product card. Null when there is only one. */
+  hoverImage: SanityImage | null;
 };
 
 export type ProductOption = { _key: string; name: string; values: string[] };

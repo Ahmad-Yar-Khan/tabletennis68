@@ -110,9 +110,20 @@ Studio must be owner-friendly: a clear desk structure (Products, Categories, Bra
 
 ## Design direction
 
-- Sporty, clean, premium and energetic. It should feel like a modern sports brand, not a template.
-- Palette (tweakable via Tailwind theme tokens): deep navy/near-black base, crisp white surfaces, **rubber red** as the primary accent, **table blue** as the secondary, and a **ball orange** highlight used sparingly (e.g. "New" badges). Ensure WCAG AA contrast.
-- Typography: a bold, slightly condensed display font for headings and a clean sans for body.
+- Sporty, modern, premium and energetic, built on **layered shades of red**. It should feel like a modern sports brand, not a template.
+- Palette (Tailwind `@theme` tokens):
+  - `ink` #0E0B0C: dark sections, hero, header on scroll, body text on light
+  - `oxblood` #3B0A10: footer, deep section backgrounds, dark borders
+  - `crimson` #9F1222: hover/pressed states, red text on light backgrounds
+  - `red` #E11D2E (**primary**, "rubber red"): main buttons, prices on sale, key accents (white text on it passes AA)
+  - `coral` #FF5A5F: accents on dark backgrounds, eyebrow text, trails/highlights
+  - `blush` #FFE8E8: light tinted backgrounds, sale badge background (crimson text)
+  - `paper` #FAF7F5: light page background for product sections
+  - `white` #FFFFFF: cards, product photo backgrounds, the "ball"
+  - Rhythm: dark hero → light (paper) product sections with white cards → oxblood footer. Red is for actions and emphasis; don't flood light sections with it.
+- Typography: **Barlow Condensed** (700/800 italic) for display headings; the slant reads as speed. **Inter** (400/500) for body and UI.
+- Shapes: pill buttons, 16 px card radius, subtle diagonal/slanted section dividers and thin "table line" details as motifs.
+- Home hero: dark ink background with faint table lines; a white **ping-pong ball follows the cursor** with a spring lag, a coral trail and a soft red spotlight; click = "smash" ripple; **magnetic** CTA buttons. Touch/no-hover devices: the ball bounces on its own in a gentle arc. Draw it on one `<canvas>` with `requestAnimationFrame`, pause when off-screen or the tab is hidden, and show a static ball for `prefers-reduced-motion`.
 - Rounded corners, generous spacing, large product photos on clean backgrounds.
 - Mobile-first: everything must work at 360 px width. Bottom-sheet filters on mobile, sidebar on desktop.
 - Badges: Sale (with % off), New, Out of stock.

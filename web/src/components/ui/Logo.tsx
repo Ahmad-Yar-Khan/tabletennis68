@@ -20,7 +20,7 @@ export function Logo({ tone = "dark", className }: LogoProps) {
       href="/"
       aria-label="tabletennis68 home"
       className={cn(
-        "inline-flex items-baseline rounded-md pr-2 font-display text-2xl leading-none font-extrabold tracking-tight lowercase italic sm:text-[1.875rem]",
+        "inline-flex min-h-11 items-center rounded-md pr-2 font-display text-2xl leading-none font-extrabold tracking-tight lowercase italic sm:text-[1.875rem]",
         tone === "dark" ? "text-ink" : "text-white",
         className,
       )}

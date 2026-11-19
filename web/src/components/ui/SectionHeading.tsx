@@ -9,6 +9,8 @@ type SectionHeadingProps = {
   href?: string;
   linkLabel?: string;
   as?: "h1" | "h2" | "h3";
+  /** Put on the heading, so a section can use `aria-labelledby`. */
+  id?: string;
   className?: string;
 };
 
@@ -19,12 +21,13 @@ export function SectionHeading({
   href,
   linkLabel = "View all",
   as: Tag = "h2",
+  id,
   className,
 }: SectionHeadingProps) {
   return (
     <div className={cn("mb-6 flex items-end justify-between gap-4", className)}>
       <div className="min-w-0">
-        <Tag className="flex items-center gap-3 text-3xl uppercase sm:text-4xl">
+        <Tag id={id} className="flex items-center gap-3 text-3xl uppercase sm:text-4xl">
           {/* Slanted red "table line" accent */}
           <span
             aria-hidden

@@ -16,7 +16,7 @@ type FooterProps = {
 };
 
 const linkClass =
-  "inline-flex min-h-10 items-center gap-2.5 rounded-md text-muted-light transition-colors hover:text-white";
+  "inline-flex min-h-11 min-w-11 items-center gap-2.5 rounded-md text-muted-light transition-colors hover:text-white";
 
 /** Shows "+92 300 1234567" style text for a 92-prefixed number; otherwise the number as entered. */
 function displayPhone(value: string): string {
@@ -32,7 +32,7 @@ export function Footer({ categories, settings }: FooterProps) {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="bg-oxblood pt-6 text-white [--slant:1.5rem] slant-top sm:pt-10 sm:[--slant:2.5rem]">
+    <footer className="relative bg-oxblood pt-6 text-white [--slant:1.5rem] slant-top sm:pt-10 sm:[--slant:2.5rem]">
       <Container className="grid gap-10 py-12 sm:grid-cols-2 lg:grid-cols-4 lg:py-16">
         {/* Shop info */}
         <div>
