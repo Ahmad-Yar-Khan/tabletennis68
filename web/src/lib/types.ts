@@ -131,6 +131,8 @@ export type EnquiryItem = {
   productId: string;
   slug: string;
   name: string;
+  /** Main product photo (without the blur placeholder, to keep storage small). */
+  image: SanityImage | null;
   /** Effective unit price at the time it was added (sale price if any). */
   unitPrice: number;
   options: SelectedOption[];

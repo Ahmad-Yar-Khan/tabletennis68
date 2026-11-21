@@ -141,7 +141,7 @@ export const siteSettings = defineType({
       group: 'text',
       rows: 4,
       description:
-        'How delivery works: delivery times, charges and cash on delivery. Shown on the contact page.',
+        'How delivery works: delivery times, charges and cash on delivery. Shown on the contact page and under the order button on every product page.',
     }),
     defineField({
       name: 'aboutText',

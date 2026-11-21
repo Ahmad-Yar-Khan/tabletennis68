@@ -35,8 +35,7 @@ export function Header({ categories, brands, settings }: HeaderProps) {
         />
         <div className="ml-auto flex items-center gap-1 sm:gap-2">
           <SearchButton />
-          {/* Placeholder count until the enquiry list store exists. */}
-          <EnquiryButton count={0} />
+          <EnquiryButton />
         </div>
       </Container>
     </StickyHeader>

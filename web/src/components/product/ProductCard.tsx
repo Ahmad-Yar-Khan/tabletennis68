@@ -80,10 +80,14 @@ export function ProductCard({
             {brand.name}
           </p>
         )}
-        <h3 className="line-clamp-2 min-h-[2.5em] font-sans text-sm leading-tight font-medium not-italic text-ink sm:text-base sm:leading-tight">
+        <h3 className="line-clamp-2 min-h-[2.5em] font-sans text-sm leading-tight font-medium text-ink not-italic sm:text-base sm:leading-tight">
           {name}
         </h3>
-        <ProductPrice price={price} salePrice={salePrice} className="mt-auto pt-1" />
+        <ProductPrice
+          price={price}
+          salePrice={salePrice}
+          className="mt-auto pt-1"
+        />
       </div>
     </Link>
   );

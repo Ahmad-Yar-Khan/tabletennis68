@@ -6,6 +6,7 @@ import { FacebookIcon } from "@/components/ui/icons/FacebookIcon";
 import { InstagramIcon } from "@/components/ui/icons/InstagramIcon";
 import { WhatsAppIcon } from "@/components/ui/icons/WhatsAppIcon";
 import { Logo } from "@/components/ui/Logo";
+import { displayPhone, telHref } from "@/lib/contact";
 import type { Category, SiteSettings } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { buildWhatsAppLink, greetingMessage } from "@/lib/whatsapp";
@@ -17,13 +18,6 @@ type FooterProps = {
 
 const linkClass =
   "inline-flex min-h-11 min-w-11 items-center gap-2.5 rounded-md text-muted-light transition-colors hover:text-white";
-
-/** Shows "+92 300 1234567" style text for a 92-prefixed number; otherwise the number as entered. */
-function displayPhone(value: string): string {
-  const digits = value.replace(/\D/g, "");
-  const m = digits.match(/^92(\d{3})(\d{7})$/);
-  return m ? `+92 ${m[1]} ${m[2]}` : value;
-}
 
 /** Site footer: shop info, categories, contact, hours, socials, copyright. Empty fields are hidden. */
 export function Footer({ categories, settings }: FooterProps) {
@@ -101,10 +95,7 @@ export function Footer({ categories, settings }: FooterProps) {
             )}
             {s.phone && (
               <li>
-                <a
-                  href={`tel:${s.phone.replace(/[^\d+]/g, "")}`}
-                  className={linkClass}
-                >
+                <a href={telHref(s.phone)} className={linkClass}>
                   <Phone aria-hidden className="size-4 shrink-0" />
                   {s.phone}
                 </a>

@@ -1,15 +1,42 @@
+"use client";
+
 import { ClipboardList } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import type { MouseEvent } from "react";
+import { useEnquiryUI } from "@/components/enquiry/EnquiryProvider";
 import { buttonVariants } from "@/components/ui/Button";
+import { useEnquiryList } from "@/lib/hooks/useEnquiryList";
 
 /**
- * Header link to the enquiry list with an item count.
- * TODO(enquiry step): read the count from the localStorage enquiry store instead of the prop.
+ * Header icon for the enquiry list, with an item-count badge. Opens the drawer;
+ * it is a real link to /enquiry/ so it also works before JavaScript loads
+ * (and with Ctrl/Cmd-click). The count is 0 in the static HTML and appears after hydration.
  */
-export function EnquiryButton({ count = 0 }: { count?: number }) {
+export function EnquiryButton() {
+  const { count } = useEnquiryList();
+  const { openDrawer } = useEnquiryUI();
+  const pathname = usePathname();
+
+  function handleClick(event: MouseEvent<HTMLAnchorElement>) {
+    if (
+      pathname === "/enquiry/" ||
+      event.button !== 0 ||
+      event.metaKey ||
+      event.ctrlKey ||
+      event.shiftKey ||
+      event.altKey
+    ) {
+      return;
+    }
+    event.preventDefault();
+    openDrawer();
+  }
+
   return (
     <Link
       href="/enquiry/"
+      onClick={handleClick}
       aria-label={`Enquiry list, ${count} ${count === 1 ? "item" : "items"}`}
       className={buttonVariants({
         variant: "ghost",

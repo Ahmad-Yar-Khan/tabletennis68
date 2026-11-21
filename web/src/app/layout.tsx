@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Barlow_Condensed, Inter } from "next/font/google";
+import { EnquiryProvider } from "@/components/enquiry/EnquiryProvider";
 import { AnnouncementBar } from "@/components/layout/AnnouncementBar";
 import { FloatingWhatsAppButton } from "@/components/layout/FloatingWhatsAppButton";
 import { Footer } from "@/components/layout/Footer";
@@ -71,22 +72,24 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="flex min-h-full flex-col font-sans">
         <MotionProvider>
-          <a
-            href="#main"
-            className="sr-only z-50 rounded-pill bg-ink px-4 py-2 font-medium text-white focus:not-sr-only focus:fixed focus:top-2 focus:left-2"
-          >
-            Skip to content
-          </a>
-          <AnnouncementBar text={settings?.announcementText} />
-          <Header categories={categories} brands={brands} settings={settings} />
-          <main id="main" className="flex-1">
-            {children}
-          </main>
-          <Footer categories={categories} settings={settings} />
-          <FloatingWhatsAppButton
-            whatsappNumber={settings?.whatsappNumber ?? null}
-            shopName={shopName}
-          />
+          <EnquiryProvider whatsappNumber={settings?.whatsappNumber ?? null}>
+            <a
+              href="#main"
+              className="sr-only z-50 rounded-pill bg-ink px-4 py-2 font-medium text-white focus:not-sr-only focus:fixed focus:top-2 focus:left-2"
+            >
+              Skip to content
+            </a>
+            <AnnouncementBar text={settings?.announcementText} />
+            <Header categories={categories} brands={brands} settings={settings} />
+            <main id="main" className="flex-1">
+              {children}
+            </main>
+            <Footer categories={categories} settings={settings} />
+            <FloatingWhatsAppButton
+              whatsappNumber={settings?.whatsappNumber ?? null}
+              shopName={shopName}
+            />
+          </EnquiryProvider>
         </MotionProvider>
       </body>
     </html>

@@ -34,7 +34,9 @@ export function ProductPrice({
             <span className="sr-only">Now </span>
             {formatPrice(salePrice as number)}
           </span>
-          <s className={cn("text-muted", size === "lg" ? "text-lg" : "text-sm")}>
+          <s
+            className={cn("text-muted", size === "lg" ? "text-lg" : "text-sm")}
+          >
             <span className="sr-only">Was </span>
             {formatPrice(price)}
           </s>
