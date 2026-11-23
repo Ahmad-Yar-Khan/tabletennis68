@@ -1,10 +1,18 @@
 "use client";
 
 import { ChevronDown } from "lucide-react";
-import { AnimatePresence, m } from "motion/react";
-import Link from "next/link";
+import dynamic from "next/dynamic";
 import { useEffect, useId, useRef, useState } from "react";
+import { useHasOpened } from "@/lib/hooks/useHasOpened";
 import { cn } from "@/lib/utils";
+
+// The panel (and Motion, which animates it) is downloaded when a dropdown is first wanted.
+const loadPanel = () => import("./NavDropdownPanel");
+const NavDropdownPanel = dynamic(
+  () => loadPanel().then((mod) => mod.NavDropdownPanel),
+  { ssr: false },
+);
+const preloadPanel = () => void loadPanel();
 
 export type NavDropdownItem = {
   key: string;
@@ -39,6 +47,7 @@ export function NavDropdown({
   const wrapperRef = useRef<HTMLLIElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const menuId = useId();
+  const mounted = useHasOpened(open);
 
   // Close on outside click.
   useEffect(() => {
@@ -70,6 +79,9 @@ export function NavDropdown({
         type="button"
         aria-expanded={open}
         aria-controls={menuId}
+        onPointerDown={preloadPanel}
+        onPointerEnter={preloadPanel}
+        onFocus={preloadPanel}
         onClick={() => setOpen((v) => !v)}
         className={cn(buttonClassName, active && "text-(--hdr-accent)")}
       >
@@ -79,43 +91,16 @@ export function NavDropdown({
           className={cn("size-4 transition-transform", open && "rotate-180")}
         />
       </button>
-      <AnimatePresence>
-        {open && (
-          <m.div
-            id={menuId}
-            initial={{ opacity: 0, y: -6 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -6 }}
-            transition={{ duration: 0.16 }}
-            className="absolute top-full left-0 z-50 mt-2 w-[30rem] rounded-card border border-line bg-white p-3 text-ink shadow-lift"
-          >
-            <ul className="grid max-h-[60dvh] grid-cols-2 gap-1 overflow-y-auto">
-              {items.map((item) => (
-                <li key={item.key}>
-                  <Link
-                    href={item.href}
-                    onClick={() => setOpen(false)}
-                    aria-current={current(item.href)}
-                    className="flex min-h-11 items-center justify-between gap-2 rounded-lg px-3 py-2 font-medium transition-colors hover:bg-paper hover:text-crimson aria-[current=page]:text-crimson"
-                  >
-                    <span>{item.label}</span>
-                    <span className="text-sm text-muted tabular-nums">
-                      {item.count}
-                    </span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-            <Link
-              href={footerLink.href}
-              onClick={() => setOpen(false)}
-              className="mt-2 flex min-h-11 items-center justify-center rounded-pill bg-blush px-3 font-medium text-crimson transition-colors hover:bg-red hover:text-white"
-            >
-              {footerLink.label}
-            </Link>
-          </m.div>
-        )}
-      </AnimatePresence>
+      {mounted && (
+        <NavDropdownPanel
+          id={menuId}
+          open={open}
+          items={items}
+          footerLink={footerLink}
+          current={current}
+          onNavigate={() => setOpen(false)}
+        />
+      )}
     </li>
   );
 }

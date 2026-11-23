@@ -8,14 +8,17 @@ import { defineQuery } from "next-sanity";
 
 // --- Reusable fragments ------------------------------------------------------
 
-/** An image field → SanityImage (null when not set). */
+/**
+ * An image field → SanityImage (null when not set).
+ * No `lqip` blur placeholder: nothing renders it, and as base64 it added ~1 KB per image to every page.
+ */
 const imageFields = /* groq */ `
   alt,
   crop,
   hotspot,
   "asset": asset->{
     _id,
-    metadata { lqip, dimensions { width, height, aspectRatio } }
+    metadata { dimensions { width, height, aspectRatio } }
   }
 `;
 

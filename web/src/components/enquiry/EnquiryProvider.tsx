@@ -1,5 +1,6 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import {
   createContext,
   useCallback,
@@ -8,8 +9,20 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import { EnquiryDrawer } from "./EnquiryDrawer";
+import { useHasOpened } from "@/lib/hooks/useHasOpened";
 import { EnquiryToast, type ToastData } from "./EnquiryToast";
+
+// The drawer (and Motion, which animates it) is downloaded the first time the list is opened.
+const loadDrawer = () => import("./EnquiryDrawer");
+const EnquiryDrawer = dynamic(
+  () => loadDrawer().then((mod) => mod.EnquiryDrawer),
+  { ssr: false },
+);
+
+/** Start downloading the enquiry drawer early, e.g. when the header button is hovered. */
+export function preloadEnquiryDrawer(): void {
+  void loadDrawer();
+}
 
 type EnquiryUI = {
   openDrawer: () => void;
@@ -42,6 +55,7 @@ export function EnquiryProvider({
 }: EnquiryProviderProps) {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [toast, setToast] = useState<ToastData | null>(null);
+  const drawerMounted = useHasOpened(drawerOpen);
 
   const openDrawer = useCallback(() => {
     setToast(null);
@@ -62,11 +76,13 @@ export function EnquiryProvider({
   return (
     <EnquiryUIContext.Provider value={value}>
       {children}
-      <EnquiryDrawer
-        open={drawerOpen}
-        onClose={closeDrawer}
-        whatsappNumber={whatsappNumber}
-      />
+      {drawerMounted && (
+        <EnquiryDrawer
+          open={drawerOpen}
+          onClose={closeDrawer}
+          whatsappNumber={whatsappNumber}
+        />
+      )}
       <EnquiryToast
         toast={toast}
         onDismiss={dismissToast}

@@ -34,6 +34,9 @@ export function ProductCard({
   return (
     <Link
       href={productPath(slug)}
+      // Grids show dozens of cards: prefetching each one as it scrolls into view cost ~3 MB
+      // of mobile data on /shop/. The product page is fetched when the card is tapped instead.
+      prefetch={false}
       className={cn(
         "group relative flex h-full flex-col rounded-card bg-white shadow-card transition-transform duration-300 ease-out hover:-translate-y-1",
         // Bigger shadow fades in on hover (opacity only, no box-shadow animation).

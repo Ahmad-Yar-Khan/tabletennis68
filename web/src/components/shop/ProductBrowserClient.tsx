@@ -1,6 +1,7 @@
 "use client";
 
 import { SlidersHorizontal } from "lucide-react";
+import dynamic from "next/dynamic";
 import {
   memo,
   useCallback,
@@ -10,6 +11,7 @@ import {
   useState,
 } from "react";
 import { ProductGrid } from "@/components/product/ProductGrid";
+import { useHasOpened } from "@/lib/hooks/useHasOpened";
 import { useShopUrlState } from "@/lib/hooks/useShopUrlState";
 import {
   clearedState,
@@ -24,10 +26,17 @@ import type { ProductListItem } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { ActiveFilterChips } from "./ActiveFilterChips";
 import { EmptyResults } from "./EmptyResults";
-import { FilterDrawer } from "./FilterDrawer";
 import { FilterPanel, type Facets } from "./FilterPanel";
 import { ShopSearchField } from "./ShopSearchField";
 import { SortSelect } from "./SortSelect";
+
+// Mobile-only bottom sheet (and Motion, which animates it): downloaded when first opened.
+const loadFilterDrawer = () => import("./FilterDrawer");
+const FilterDrawer = dynamic(
+  () => loadFilterDrawer().then((mod) => mod.FilterDrawer),
+  { ssr: false },
+);
+const preloadFilterDrawer = () => void loadFilterDrawer();
 
 export type ProductBrowserClientProps = {
   products: ProductListItem[];
@@ -52,6 +61,7 @@ export function ProductBrowserClient({
 }: ProductBrowserClientProps) {
   const [state, update] = useShopUrlState(locked);
   const [draft, setDraft] = useState<ShopState | null>(null);
+  const drawerMounted = useHasOpened(draft !== null);
   const resultsRef = useRef<HTMLDivElement>(null);
 
   // Built once per product list: lower-cased search text, effective price, etc.
@@ -129,6 +139,8 @@ export function ProductBrowserClient({
             type="button"
             aria-haspopup="dialog"
             aria-expanded={draft !== null}
+            onPointerDown={preloadFilterDrawer}
+            onFocus={preloadFilterDrawer}
             onClick={() => setDraft(state)}
             className="inline-flex h-11 items-center gap-2 rounded-pill bg-ink px-5 font-medium text-white transition-colors hover:bg-oxblood active:scale-[0.98] lg:hidden"
           >
@@ -187,15 +199,17 @@ export function ProductBrowserClient({
         </div>
       </div>
 
-      <FilterDrawer
-        draft={draft}
-        setDraft={setDraft}
-        onApply={applyDraft}
-        onClose={closeDrawer}
-        index={index}
-        facets={facets}
-        locked={locked}
-      />
+      {drawerMounted && (
+        <FilterDrawer
+          draft={draft}
+          setDraft={setDraft}
+          onApply={applyDraft}
+          onClose={closeDrawer}
+          index={index}
+          facets={facets}
+          locked={locked}
+        />
+      )}
     </div>
   );
 }

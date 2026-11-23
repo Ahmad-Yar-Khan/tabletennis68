@@ -29,7 +29,6 @@ export type SanityImage = {
   asset: {
     _id: string;
     metadata: {
-      lqip: string | null;
       dimensions: { width: number; height: number; aspectRatio: number } | null;
     } | null;
   } | null;

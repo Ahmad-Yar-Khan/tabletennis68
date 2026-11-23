@@ -64,7 +64,7 @@ function numbers<K extends string>(v: unknown, keys: K[]) {
   return Object.fromEntries(keys.map((k) => [k, v[k]])) as Record<K, number>;
 }
 
-/** Keeps only the fields the image URL builder needs; drops the (large) LQIP string. */
+/** Keeps only the fields the image URL builder needs (older saved lists may still carry an LQIP string). */
 export function compactImage(image: unknown): SanityImage | null {
   if (!isRecord(image) || !isRecord(image.asset)) return null;
   const { asset } = image;
@@ -76,7 +76,7 @@ export function compactImage(image: unknown): SanityImage | null {
     alt: typeof image.alt === "string" ? image.alt : null,
     crop: numbers(image.crop, ["top", "bottom", "left", "right"]),
     hotspot: numbers(image.hotspot, ["x", "y", "width", "height"]),
-    asset: { _id: asset._id, metadata: { lqip: null, dimensions: dims } },
+    asset: { _id: asset._id, metadata: { dimensions: dims } },
   };
 }
 

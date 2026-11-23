@@ -1,12 +1,20 @@
 "use client";
 
 import { ChevronLeft, ChevronRight, Expand } from "lucide-react";
+import dynamic from "next/dynamic";
 import { useRef, useState, type KeyboardEvent } from "react";
 import { ImagePlaceholder } from "@/components/ui/ImagePlaceholder";
 import { imageSrcSet, imageUrl } from "@/lib/sanity/image";
 import type { SanityImage } from "@/lib/types";
 import { cn } from "@/lib/utils";
-import { ProductZoomViewer } from "./ProductZoomViewer";
+
+// Full-screen viewer: downloaded only when a photo is tapped (started on pointer-down/focus).
+const loadZoomViewer = () => import("./ProductZoomViewer");
+const ProductZoomViewer = dynamic(
+  () => loadZoomViewer().then((mod) => mod.ProductZoomViewer),
+  { ssr: false },
+);
+const preloadZoomViewer = () => void loadZoomViewer();
 
 export type GalleryImage = SanityImage & { _key: string };
 
@@ -103,6 +111,8 @@ export function ProductGallery({ images, productName }: ProductGalleryProps) {
           ref={trackRef}
           onScroll={onScroll}
           onKeyDown={onKeyDown}
+          onPointerDown={preloadZoomViewer}
+          onFocus={preloadZoomViewer}
           className="flex aspect-square snap-x snap-mandatory [scrollbar-width:none] overflow-x-auto overscroll-x-contain [&::-webkit-scrollbar]:hidden"
         >
           {images.map((image, i) => (

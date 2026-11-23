@@ -4,7 +4,10 @@ import { ClipboardList } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { MouseEvent } from "react";
-import { useEnquiryUI } from "@/components/enquiry/EnquiryProvider";
+import {
+  preloadEnquiryDrawer,
+  useEnquiryUI,
+} from "@/components/enquiry/EnquiryProvider";
 import { buttonVariants } from "@/components/ui/Button";
 import { useEnquiryList } from "@/lib/hooks/useEnquiryList";
 
@@ -37,6 +40,10 @@ export function EnquiryButton() {
     <Link
       href="/enquiry/"
       onClick={handleClick}
+      // The drawer is loaded on demand; start the download on intent.
+      onPointerDown={preloadEnquiryDrawer}
+      onPointerEnter={preloadEnquiryDrawer}
+      onFocus={preloadEnquiryDrawer}
       aria-label={`Enquiry list, ${count} ${count === 1 ? "item" : "items"}`}
       className={buttonVariants({
         variant: "ghost",
