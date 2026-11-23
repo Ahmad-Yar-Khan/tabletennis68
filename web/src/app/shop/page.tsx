@@ -3,19 +3,7 @@ import { ListingHero } from "@/components/shop/ListingHero";
 import { ProductBrowser } from "@/components/shop/ProductBrowser";
 import { ShopShortcuts } from "@/components/shop/ShopShortcuts";
 import { Container } from "@/components/ui/Container";
-import { sanityFetch } from "@/lib/sanity/client";
-import {
-  allProductsQuery,
-  brandsQuery,
-  categoriesQuery,
-  siteSettingsQuery,
-} from "@/lib/sanity/queries";
-import type {
-  Brand,
-  Category,
-  ProductListItem,
-  SiteSettings,
-} from "@/lib/types";
+import { getSiteContent } from "@/lib/sanity/content";
 
 export const metadata: Metadata = {
   title: "Shop all table tennis equipment",
@@ -26,12 +14,7 @@ export const metadata: Metadata = {
 
 /** All products with client-side search, filters and sort (data fetched at build time). */
 export default async function ShopPage() {
-  const [products, categories, brands, settings] = await Promise.all([
-    sanityFetch<ProductListItem[]>(allProductsQuery),
-    sanityFetch<Category[]>(categoriesQuery),
-    sanityFetch<Brand[]>(brandsQuery),
-    sanityFetch<SiteSettings | null>(siteSettingsQuery),
-  ]);
+  const { products, categories, brands, settings } = await getSiteContent();
 
   return (
     <>

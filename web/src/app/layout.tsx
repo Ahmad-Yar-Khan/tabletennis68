@@ -6,13 +6,7 @@ import { FloatingWhatsAppButton } from "@/components/layout/FloatingWhatsAppButt
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { MotionProvider } from "@/components/ui/MotionProvider";
-import { sanityFetch } from "@/lib/sanity/client";
-import {
-  brandsQuery,
-  categoriesQuery,
-  siteSettingsQuery,
-} from "@/lib/sanity/queries";
-import type { Brand, Category, SiteSettings } from "@/lib/types";
+import { getSiteContent } from "@/lib/sanity/content";
 import { SITE_URL } from "@/lib/utils";
 import "./globals.css";
 
@@ -58,11 +52,7 @@ export const viewport: Viewport = {
 
 export default async function RootLayout({ children }: LayoutProps<"/">) {
   // Fetched once at build time; every page gets the same header/footer data.
-  const [settings, categories, brands] = await Promise.all([
-    sanityFetch<SiteSettings | null>(siteSettingsQuery),
-    sanityFetch<Category[]>(categoriesQuery),
-    sanityFetch<Brand[]>(brandsQuery),
-  ]);
+  const { settings, categories, brands } = await getSiteContent();
   const shopName = settings?.shopName || "tabletennis68";
 
   return (

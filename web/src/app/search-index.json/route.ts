@@ -1,8 +1,6 @@
-import { sanityFetch } from "@/lib/sanity/client";
+import { getProducts } from "@/lib/sanity/content";
 import { imageUrl } from "@/lib/sanity/image";
-import { allProductsQuery } from "@/lib/sanity/queries";
 import type { SearchItem } from "@/lib/search";
-import type { ProductListItem } from "@/lib/types";
 
 /*
  * Static file /search-index.json, written at build time (like sitemap.xml; no server involved).
@@ -13,7 +11,7 @@ export const dynamic = "force-static";
 const THUMB_SIZE = 112; // shown at 56 px; 2x for sharp phone screens
 
 export async function GET() {
-  const products = await sanityFetch<ProductListItem[]>(allProductsQuery);
+  const products = await getProducts();
   const items: SearchItem[] = products.map((p) => ({
     id: p._id,
     name: p.name,

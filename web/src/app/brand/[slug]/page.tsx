@@ -5,30 +5,18 @@ import { ListingHero } from "@/components/shop/ListingHero";
 import { ProductBrowser } from "@/components/shop/ProductBrowser";
 import { Container } from "@/components/ui/Container";
 import { productCountLabel } from "@/lib/shop";
-import { sanityFetch } from "@/lib/sanity/client";
-import {
-  allProductsQuery,
-  brandSlugsQuery,
-  brandsQuery,
-  categoriesQuery,
-  siteSettingsQuery,
-} from "@/lib/sanity/queries";
-import type {
-  Brand,
-  Category,
-  ProductListItem,
-  SiteSettings,
-} from "@/lib/types";
+import { getBrands, getSiteContent } from "@/lib/sanity/content";
+import type { Brand } from "@/lib/types";
 
 export const dynamicParams = false;
 
 export async function generateStaticParams() {
-  const slugs = await sanityFetch<string[]>(brandSlugsQuery);
-  return slugs.map((slug) => ({ slug }));
+  const brands = await getBrands();
+  return brands.map((b) => ({ slug: b.slug }));
 }
 
 async function getBrand(slug: string): Promise<Brand | undefined> {
-  const brands = await sanityFetch<Brand[]>(brandsQuery);
+  const brands = await getBrands();
   return brands.find((b) => b.slug === slug);
 }
 
@@ -53,12 +41,7 @@ export default async function BrandPage({
   params,
 }: PageProps<"/brand/[slug]">) {
   const { slug } = await params;
-  const [products, categories, brands, settings] = await Promise.all([
-    sanityFetch<ProductListItem[]>(allProductsQuery),
-    sanityFetch<Category[]>(categoriesQuery),
-    sanityFetch<Brand[]>(brandsQuery),
-    sanityFetch<SiteSettings | null>(siteSettingsQuery),
-  ]);
+  const { products, categories, brands, settings } = await getSiteContent();
   const brand = brands.find((b) => b.slug === slug);
   if (!brand) notFound();
 

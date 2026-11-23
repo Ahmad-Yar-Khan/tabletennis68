@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { cache } from "react";
 import { DeliveryInfo } from "@/components/product/DeliveryInfo";
 import {
   ProductBreadcrumbs,
@@ -16,14 +15,13 @@ import { ProductSpecs } from "@/components/product/ProductSpecs";
 import { RelatedProducts } from "@/components/product/RelatedProducts";
 import { Badge } from "@/components/ui/Badge";
 import { Container } from "@/components/ui/Container";
-import { sanityFetch } from "@/lib/sanity/client";
-import { hasImage, urlForImage } from "@/lib/sanity/image";
 import {
-  productBySlugQuery,
-  productSlugsQuery,
-  siteSettingsQuery,
-} from "@/lib/sanity/queries";
-import type { ProductDetail, SiteSettings } from "@/lib/types";
+  getProduct,
+  getProducts,
+  getSiteSettings,
+} from "@/lib/sanity/content";
+import { hasImage, urlForImage } from "@/lib/sanity/image";
+import type { ProductDetail } from "@/lib/types";
 import {
   formatPrice,
   getDiscountPercent,
@@ -34,14 +32,9 @@ import {
 export const dynamicParams = false;
 
 export async function generateStaticParams() {
-  const slugs = await sanityFetch<string[]>(productSlugsQuery);
-  return slugs.map((slug) => ({ slug }));
+  const products = await getProducts();
+  return products.map((p) => ({ slug: p.slug }));
 }
-
-/** Shared by generateMetadata and the page, so each product is fetched once per build. */
-const getProduct = cache((slug: string) =>
-  sanityFetch<ProductDetail | null>(productBySlugQuery, { slug }),
-);
 
 function metaDescription(product: ProductDetail): string {
   return (
@@ -103,7 +96,7 @@ export default async function ProductPage({
   const { slug } = await params;
   const [product, settings] = await Promise.all([
     getProduct(slug),
-    sanityFetch<SiteSettings | null>(siteSettingsQuery),
+    getSiteSettings(),
   ]);
   if (!product) notFound();
 

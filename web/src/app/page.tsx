@@ -5,34 +5,15 @@ import { ShopByBrand } from "@/components/home/ShopByBrand";
 import { ShopByCategory } from "@/components/home/ShopByCategory";
 import { StoreLocationStrip } from "@/components/home/StoreLocationStrip";
 import { WhyBuyFromUs } from "@/components/home/WhyBuyFromUs";
-import { sanityFetch } from "@/lib/sanity/client";
-import {
-  activeBannersQuery,
-  allProductsQuery,
-  brandsQuery,
-  categoriesQuery,
-  siteSettingsQuery,
-} from "@/lib/sanity/queries";
-import type {
-  Banner,
-  Brand,
-  Category,
-  ProductListItem,
-  SiteSettings,
-} from "@/lib/types";
+import { getSiteContent } from "@/lib/sanity/content";
 
 const MAX_NEW = 8;
 const MAX_FEATURED = 8;
 
 /** Home page. All data is fetched once at build time and passed down; empty sections hide themselves. */
 export default async function Home() {
-  const [banners, products, categories, brands, settings] = await Promise.all([
-    sanityFetch<Banner[]>(activeBannersQuery),
-    sanityFetch<ProductListItem[]>(allProductsQuery),
-    sanityFetch<Category[]>(categoriesQuery),
-    sanityFetch<Brand[]>(brandsQuery),
-    sanityFetch<SiteSettings | null>(siteSettingsQuery),
-  ]);
+  const { banners, products, categories, brands, settings } =
+    await getSiteContent();
 
   const newArrivals = products
     .filter((p) => p.isNew)

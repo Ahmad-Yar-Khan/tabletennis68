@@ -44,47 +44,19 @@ const productCardFields = /* groq */ `
   "hoverImage": images[1]{ ${imageFields} }
 `;
 
-// --- Products ----------------------------------------------------------------
+// --- Projections -------------------------------------------------------------
 
-/** All products for listings and client-side filtering. → ProductListItem[] */
-export const allProductsQuery = defineQuery(`
-  *[${productFilter}] | ${productOrder} { ${productCardFields} }
-`);
-
-/** One product with full detail + up to 8 related products from the same category. → ProductDetail | null */
-export const productBySlugQuery = defineQuery(`
-  *[${productFilter} && slug.current == $slug][0] {
-    ${productCardFields},
-    "images": images[defined(asset)]{ _key, ${imageFields} },
-    description,
-    "options": options[]{ _key, name, "values": coalesce(values, []) },
-    "specs": specs[]{ _key, label, value },
-    "related": *[${productFilter} && category._ref == ^.category._ref && _id != ^._id]
-      | ${productOrder} [0...8] { ${productCardFields} }
-  }
-`);
-
-// --- Slugs for generateStaticParams -----------------------------------------
-
-/** → string[] */
-export const productSlugsQuery = defineQuery(
-  `*[${productFilter}].slug.current`,
-);
-
-/** → string[] */
-export const categorySlugsQuery = defineQuery(
-  `*[_type == "category" && defined(slug.current)].slug.current`,
-);
-
-/** → string[] */
-export const brandSlugsQuery = defineQuery(
-  `*[_type == "brand" && defined(slug.current)].slug.current`,
-);
-
-// --- Categories, brands, banners, settings -----------------------------------
+/** Product detail fields (on top of the card fields). `categoryId` is used to find related products. */
+const productDetailFields = /* groq */ `
+  "categoryId": category._ref,
+  "images": images[defined(asset)]{ _key, ${imageFields} },
+  description,
+  "options": options[]{ _key, name, "values": coalesce(values, []) },
+  "specs": specs[]{ _key, label, value }
+`;
 
 /** Categories by the owner's position, then name. → Category[] */
-export const categoriesQuery = defineQuery(`
+const categoriesProjection = /* groq */ `
   *[_type == "category" && defined(slug.current)]
     | order(coalesce(order, 999999) asc, name asc) {
     _id,
@@ -94,10 +66,10 @@ export const categoriesQuery = defineQuery(`
     "image": image{ ${imageFields} },
     "productCount": count(*[${productFilter} && references(^._id)])
   }
-`);
+`;
 
 /** Brands A–Z. → Brand[] */
-export const brandsQuery = defineQuery(`
+const brandsProjection = /* groq */ `
   *[_type == "brand" && defined(slug.current)] | order(name asc) {
     _id,
     name,
@@ -105,10 +77,10 @@ export const brandsQuery = defineQuery(`
     "logo": logo{ ${imageFields} },
     "productCount": count(*[${productFilter} && references(^._id)])
   }
-`);
+`;
 
 /** Active home banners by position. "Show on website" unset counts as on. → Banner[] */
-export const activeBannersQuery = defineQuery(`
+const activeBannersProjection = /* groq */ `
   *[_type == "banner" && active != false] | order(coalesce(order, 999999) asc, _createdAt asc) {
     _id,
     heading,
@@ -117,10 +89,10 @@ export const activeBannersQuery = defineQuery(`
     buttonLink,
     "image": image{ ${imageFields} }
   }
-`);
+`;
 
 /** The single Site settings document (_id "siteSettings"). → SiteSettings | null */
-export const siteSettingsQuery = defineQuery(`
+const siteSettingsProjection = /* groq */ `
   *[_id == "siteSettings"][0] {
     shopName,
     whatsappNumber,
@@ -136,4 +108,22 @@ export const siteSettingsQuery = defineQuery(`
     deliveryInfo,
     aboutText
   }
-`);
+`;
+
+// --- The one query the site is built from ------------------------------------
+
+/**
+ * Everything the website shows, in one request (see src/lib/sanity/content.ts).
+ * Products are in the owner's order and carry both card and detail fields.
+ * → SiteContentResult (src/lib/sanity/content.ts)
+ */
+export const siteContentQuery = defineQuery(`{
+  "products": *[${productFilter}] | ${productOrder} {
+    ${productCardFields},
+    ${productDetailFields}
+  },
+  "categories": ${categoriesProjection},
+  "brands": ${brandsProjection},
+  "banners": ${activeBannersProjection},
+  "settings": ${siteSettingsProjection}
+}`);

@@ -4,9 +4,7 @@ import Form from "next/form";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
-import { sanityFetch } from "@/lib/sanity/client";
-import { categoriesQuery } from "@/lib/sanity/queries";
-import type { Category } from "@/lib/types";
+import { getCategories } from "@/lib/sanity/content";
 
 export const metadata: Metadata = {
   title: "Page not found",
@@ -18,7 +16,7 @@ export const metadata: Metadata = {
  * The search box is a plain GET form to /shop/?q=…, so it works even before JavaScript loads.
  */
 export default async function NotFound() {
-  const categories = (await sanityFetch<Category[]>(categoriesQuery)).filter(
+  const categories = (await getCategories()).filter(
     (c) => c.productCount > 0,
   );
 

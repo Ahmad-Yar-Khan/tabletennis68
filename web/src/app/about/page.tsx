@@ -7,9 +7,7 @@ import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { WhatsAppIcon } from "@/components/ui/icons/WhatsAppIcon";
 import { RichText } from "@/components/ui/RichText";
-import { sanityFetch } from "@/lib/sanity/client";
-import { siteSettingsQuery } from "@/lib/sanity/queries";
-import type { SiteSettings } from "@/lib/types";
+import { getSiteSettings } from "@/lib/sanity/content";
 import { buildWhatsAppLink, greetingMessage } from "@/lib/whatsapp";
 
 export const metadata: Metadata = {
@@ -21,7 +19,7 @@ export const metadata: Metadata = {
 
 /** About page: the owner's story (Site settings → About the shop), a contact card and "Why buy from us". */
 export default async function AboutPage() {
-  const settings = await sanityFetch<SiteSettings | null>(siteSettingsQuery);
+  const settings = await getSiteSettings();
   const shopName = settings?.shopName || "tabletennis68";
   const about = settings?.aboutText ?? [];
   const address = settings?.address?.trim();

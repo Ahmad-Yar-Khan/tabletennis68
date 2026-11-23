@@ -10,9 +10,7 @@ import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { WhatsAppIcon } from "@/components/ui/icons/WhatsAppIcon";
 import { faqs } from "@/lib/faq";
-import { sanityFetch } from "@/lib/sanity/client";
-import { siteSettingsQuery } from "@/lib/sanity/queries";
-import type { SiteSettings } from "@/lib/types";
+import { getSiteSettings } from "@/lib/sanity/content";
 import { cn } from "@/lib/utils";
 import { buildWhatsAppLink, greetingMessage } from "@/lib/whatsapp";
 
@@ -25,7 +23,7 @@ export const metadata: Metadata = {
 
 /** Contact page: quick contact buttons, address + map, hours, delivery info and FAQs. */
 export default async function ContactPage() {
-  const settings = await sanityFetch<SiteSettings | null>(siteSettingsQuery);
+  const settings = await getSiteSettings();
   const shopName = settings?.shopName || "tabletennis68";
   const address = settings?.address?.trim();
   const hours = settings?.openingHours?.trim();
