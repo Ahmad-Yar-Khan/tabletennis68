@@ -1,11 +1,12 @@
 import { ProductGrid } from "@/components/product/ProductGrid";
 import { Skeleton } from "@/components/ui/Skeleton";
-import { productCountLabel } from "@/lib/shop";
+import { PAGE_SIZE, productCountLabel } from "@/lib/shop";
 import type { ProductListItem } from "@/lib/types";
+import { ShowMore } from "./ShowMore";
 
 /**
  * Server-rendered stand-in shown in the static HTML until the browser reads the URL filters.
- * Lists every product (good for SEO and first paint) in the same layout as ProductBrowser,
+ * Lists the first page of products (keeps the HTML small) in the same layout as ProductBrowser,
  * so nothing jumps when the interactive version takes over.
  */
 export function ProductBrowserFallback({
@@ -31,9 +32,13 @@ export function ProductBrowserFallback({
           <Skeleton className="hidden h-11 w-52 rounded-pill lg:block" />
         </div>
         <ProductGrid
-          products={products}
+          products={products.slice(0, PAGE_SIZE)}
           priorityCount={4}
           className="mt-4 md:grid-cols-3 lg:grid-cols-3 lg:gap-5 xl:gap-6"
+        />
+        <ShowMore
+          shown={Math.min(PAGE_SIZE, products.length)}
+          total={products.length}
         />
       </div>
     </div>

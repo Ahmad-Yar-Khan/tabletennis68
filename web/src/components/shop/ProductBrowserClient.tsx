@@ -6,6 +6,7 @@ import {
   memo,
   useCallback,
   useDeferredValue,
+  useEffect,
   useMemo,
   useRef,
   useState,
@@ -18,6 +19,7 @@ import {
   countActiveFilters,
   filterProducts,
   indexProducts,
+  PAGE_SIZE,
   productCountLabel,
   type LockedFilter,
   type ShopState,
@@ -28,6 +30,7 @@ import { ActiveFilterChips } from "./ActiveFilterChips";
 import { EmptyResults } from "./EmptyResults";
 import { FilterPanel, type Facets } from "./FilterPanel";
 import { ShopSearchField } from "./ShopSearchField";
+import { ShowMore } from "./ShowMore";
 import { SortSelect } from "./SortSelect";
 
 // Mobile-only bottom sheet (and Motion, which animates it): downloaded when first opened.
@@ -73,6 +76,31 @@ export function ProductBrowserClient({
     [index, deferredState],
   );
   const activeCount = countActiveFilters(state);
+
+  // "Show more": only the first `page × 24` results are rendered.
+  const visibleCount = Math.min(deferredState.page * PAGE_SIZE, results.length);
+  const visible = useMemo(
+    () => results.slice(0, visibleCount),
+    [results, visibleCount],
+  );
+
+  // After "Show more", move keyboard focus to the first new card (not the top of the list).
+  const gridRef = useRef<HTMLDivElement>(null);
+  const focusFrom = useRef<number | null>(null);
+  useEffect(() => {
+    const from = focusFrom.current;
+    if (from === null || visibleCount <= from) return;
+    focusFrom.current = null;
+    gridRef.current
+      ?.querySelectorAll<HTMLAnchorElement>("li > a")
+      [from]?.focus({ preventScroll: true });
+  }, [visibleCount]);
+
+  const showMore = useCallback(() => {
+    focusFrom.current = visibleCount;
+    // Replace, not push: Back should leave the shop, not un-load 24 products at a time.
+    update({ page: Math.ceil(visibleCount / PAGE_SIZE) + 1 }, { replace: true });
+  }, [update, visibleCount]);
 
   /** After a bulk change, bring the top of the results back into view if it scrolled away. */
   const revealResults = useCallback(() => {
@@ -177,6 +205,7 @@ export function ProductBrowserClient({
         />
 
         <div
+          ref={gridRef}
           className={cn(
             "mt-4 transition-opacity duration-150",
             // Dim while a new result set is being prepared in the background.
@@ -184,11 +213,18 @@ export function ProductBrowserClient({
           )}
         >
           {results.length > 0 ? (
-            <ResultsGrid
-              products={results}
-              priorityCount={4}
-              className={GRID_CLASS}
-            />
+            <>
+              <ResultsGrid
+                products={visible}
+                priorityCount={4}
+                className={GRID_CLASS}
+              />
+              <ShowMore
+                shown={visibleCount}
+                total={results.length}
+                onShowMore={showMore}
+              />
+            </>
           ) : (
             <EmptyResults
               query={deferredState.q}

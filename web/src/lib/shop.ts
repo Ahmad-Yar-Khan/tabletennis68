@@ -5,8 +5,11 @@ import type { Brand, Category, ProductListItem } from "./types";
 /*
  * Filter / sort / search state for product listings (/shop, /category/…, /brand/…).
  * Pure functions only, so they can be memoised and unit-tested. The state lives in the URL:
- *   ?q=tenergy&category=rubbers,blades&brand=butterfly&min=5000&max=15000&stock=in&sort=price-asc
+ *   ?q=tenergy&category=rubbers,blades&brand=butterfly&min=5000&max=15000&stock=in&sort=price-asc&page=2
  */
+
+/** Products shown per "Show more" step. `page=2` in the URL shows the first 48. */
+export const PAGE_SIZE = 24;
 
 export const SORT_OPTIONS = [
   { value: "recommended", label: "Recommended" },
@@ -36,6 +39,8 @@ export type ShopState = {
   max: number | null;
   inStockOnly: boolean;
   sort: SortKey;
+  /** How many pages of PAGE_SIZE are shown (1 = the first 24). Resets to 1 when anything else changes. */
+  page: number;
 };
 
 /** A filter fixed by the page (e.g. the category on /category/rubbers/); hidden from the UI and the URL. */
@@ -49,6 +54,7 @@ export const EMPTY_STATE: ShopState = {
   max: null,
   inStockOnly: false,
   sort: DEFAULT_SORT,
+  page: 1,
 };
 
 // --- URL <-> state -----------------------------------------------------------
@@ -73,6 +79,12 @@ function parsePrice(value: string | null): number | null {
   return Number.isFinite(n) && n > 0 ? n : null;
 }
 
+/** Whole number ≥ 1; anything else (missing, "abc", "0", "-2") means page 1. Capped to keep the DOM sane. */
+function parsePage(value: string | null): number {
+  const n = Number(value);
+  return Number.isInteger(n) && n > 1 ? Math.min(n, 100) : 1;
+}
+
 /** Reads the state from URL search params. Unknown or invalid values fall back to defaults. */
 export function parseShopState(
   params: ParamsLike,
@@ -88,6 +100,7 @@ export function parseShopState(
     max: parsePrice(params.get("max")),
     inStockOnly: params.get("stock") === "in",
     sort: SORT_KEYS.has(sort) ? (sort as SortKey) : DEFAULT_SORT,
+    page: parsePage(params.get("page")),
   };
 }
 
@@ -102,6 +115,7 @@ export function serializeShopState(state: ShopState): string {
   if (state.max !== null) params.set("max", String(state.max));
   if (state.inStockOnly) params.set("stock", "in");
   if (state.sort !== DEFAULT_SORT) params.set("sort", state.sort);
+  if (state.page > 1) params.set("page", String(state.page));
   // Keep commas readable in shared links (?category=rubbers,blades).
   return params.toString().replace(/%2C/g, ",");
 }
@@ -192,6 +206,14 @@ export function filterProducts(
   });
 
   return matches.sort(comparators[state.sort]).map((item) => item.product);
+}
+
+/** True when two states differ in anything other than the page (filters, search or sort). */
+export function filtersDiffer(a: ShopState, b: ShopState): boolean {
+  return (
+    serializeShopState({ ...a, page: 1 }) !==
+    serializeShopState({ ...b, page: 1 })
+  );
 }
 
 /** Only counts the matches (for "Show N results" while editing filters). */

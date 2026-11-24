@@ -3,6 +3,7 @@
 import { useSearchParams } from "next/navigation";
 import { useCallback, useMemo } from "react";
 import {
+  filtersDiffer,
   parseShopState,
   serializeShopState,
   type LockedFilter,
@@ -48,10 +49,12 @@ export function useShopUrlState(locked?: LockedFilter) {
           ? { type: lockedType, slug: lockedSlug }
           : undefined,
       );
-      const next =
+      let next =
         typeof change === "function"
           ? change(current)
           : { ...current, ...change };
+      // A different result set starts again from the first 24.
+      if (filtersDiffer(next, current)) next = { ...next, page: 1 };
       const query = serializeShopState(next);
       if (query === serializeShopState(current)) return;
 
