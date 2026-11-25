@@ -20,7 +20,7 @@ export function NewArrivals({ products }: { products: ProductListItem[] }) {
         id="new-arrivals"
         title="New arrivals"
         subtitle="Fresh in the shop."
-        href="/shop/"
+        href="/shop/?sort=newest"
       />
       {/* Bleeds to the screen edges on phones so cards scroll edge to edge. pt/pb leave room for the hover lift and shadow. */}
       <ul className="-mx-4 flex snap-x snap-mandatory scroll-px-4 gap-3 overflow-x-auto overscroll-x-contain px-4 pt-1 pb-4 [scrollbar-width:none] sm:-mx-6 sm:scroll-px-6 sm:gap-4 sm:px-6 lg:mx-0 lg:grid lg:grid-cols-4 lg:gap-6 lg:overflow-visible lg:p-0 [&::-webkit-scrollbar]:hidden">

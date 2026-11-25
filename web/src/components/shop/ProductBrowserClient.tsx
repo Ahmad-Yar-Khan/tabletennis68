@@ -28,7 +28,8 @@ import type { ProductListItem } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { ActiveFilterChips } from "./ActiveFilterChips";
 import { EmptyResults } from "./EmptyResults";
-import { FilterPanel, type Facets } from "./FilterPanel";
+import { FilterMenu } from "./FilterMenu";
+import type { Facets } from "./FilterPanel";
 import { ShopSearchField } from "./ShopSearchField";
 import { ShowMore } from "./ShowMore";
 import { SortSelect } from "./SortSelect";
@@ -51,9 +52,6 @@ export type ProductBrowserClientProps = {
 
 /** Only re-renders when the filtered list itself changes (not on drawer toggles, typing, etc.). */
 const ResultsGrid = memo(ProductGrid);
-
-/** Grid columns with the sidebar beside it: 2 on phones, 3 from tablets up. */
-const GRID_CLASS = "md:grid-cols-3 lg:grid-cols-3 lg:gap-5 xl:gap-6";
 
 export function ProductBrowserClient({
   products,
@@ -141,19 +139,7 @@ export function ProductBrowserClient({
   const closeDrawer = useCallback(() => setDraft(null), []);
 
   return (
-    <div className="lg:grid lg:grid-cols-[15rem_minmax(0,1fr)] lg:gap-8 xl:grid-cols-[16rem_minmax(0,1fr)] xl:gap-10">
-      {/* Desktop sidebar: filters apply immediately. */}
-      <aside aria-label="Filters" className="hidden lg:block">
-        <div className="sticky top-24 max-h-[calc(100dvh-7rem)] overflow-y-auto overscroll-contain pr-2 pb-6">
-          <FilterPanel
-            state={state}
-            onChange={patch}
-            facets={facets}
-            locked={locked}
-          />
-        </div>
-      </aside>
-
+    <div>
       <div ref={resultsRef} className="min-w-0">
         <ShopSearchField
           value={state.q}
@@ -182,19 +168,27 @@ export function ProductBrowserClient({
               </span>
             )}
           </button>
-          <p
-            role="status"
-            className="text-sm text-muted tabular-nums lg:text-base"
-          >
-            <span className="font-medium text-ink">
-              {productCountLabel(results.length)}
-            </span>
-          </p>
+          {/* Desktop: hover menu with Category / Brand / Price flyouts; filters apply immediately. */}
+          <FilterMenu
+            state={state}
+            onChange={patch}
+            facets={facets}
+            locked={locked}
+            className="hidden lg:block"
+          />
           <SortSelect
             value={state.sort}
             onChange={(sort) => update({ sort })}
             className="hidden lg:flex"
           />
+          <p
+            role="status"
+            className="text-sm text-muted tabular-nums lg:ml-auto lg:text-base"
+          >
+            <span className="font-medium text-ink">
+              {productCountLabel(results.length)}
+            </span>
+          </p>
         </div>
 
         <ActiveFilterChips
@@ -217,7 +211,6 @@ export function ProductBrowserClient({
               <ResultsGrid
                 products={visible}
                 priorityCount={4}
-                className={GRID_CLASS}
               />
               <ShowMore
                 shown={visibleCount}

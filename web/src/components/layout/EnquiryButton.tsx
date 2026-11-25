@@ -44,7 +44,7 @@ export function EnquiryButton() {
       onPointerDown={preloadEnquiryDrawer}
       onPointerEnter={preloadEnquiryDrawer}
       onFocus={preloadEnquiryDrawer}
-      aria-label={`Enquiry list, ${count} ${count === 1 ? "item" : "items"}`}
+      aria-label={`Order list,${count} ${count === 1 ? "item" : "items"}`}
       className={buttonVariants({
         variant: "ghost",
         size: "icon",

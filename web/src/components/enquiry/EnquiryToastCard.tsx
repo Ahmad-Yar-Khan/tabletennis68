@@ -38,7 +38,7 @@ export function EnquiryToastCard({
         >
           <CircleCheck aria-hidden className="size-5 shrink-0 text-whatsapp" />
           <div className="min-w-0 flex-1">
-            <p className="text-sm font-medium">Added to your list</p>
+            <p className="text-sm font-medium">Added to your order list</p>
             <p className="truncate text-xs text-muted-light">
               {toast.note ?? toast.productName}
             </p>

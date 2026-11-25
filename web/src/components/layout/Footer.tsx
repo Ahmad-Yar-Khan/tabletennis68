@@ -159,7 +159,7 @@ export function Footer({ categories, settings }: FooterProps) {
             </li>
             <li>
               <Link href="/enquiry/" className={linkClass}>
-                Enquiry list
+                Order list
               </Link>
             </li>
           </ul>

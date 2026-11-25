@@ -6,17 +6,32 @@ import { cn } from "@/lib/utils";
 type StockToggleProps = {
   checked: boolean;
   onChange: (checked: boolean) => void;
+  className?: string;
+  labelClassName?: string;
 };
 
 /** "In stock only" switch. */
-export function StockToggle({ checked, onChange }: StockToggleProps) {
+export function StockToggle({
+  checked,
+  onChange,
+  className,
+  labelClassName,
+}: StockToggleProps) {
   const labelId = useId();
 
   return (
-    <div className="flex min-h-11 items-center justify-between gap-3 border-t border-line pt-5">
+    <div
+      className={cn(
+        "flex min-h-11 items-center justify-between gap-3 border-t border-line pt-5",
+        className,
+      )}
+    >
       <span
         id={labelId}
-        className="font-display text-xl font-bold tracking-wide uppercase italic"
+        className={cn(
+          "font-display text-xl font-bold tracking-wide uppercase italic",
+          labelClassName,
+        )}
       >
         In stock only
       </span>

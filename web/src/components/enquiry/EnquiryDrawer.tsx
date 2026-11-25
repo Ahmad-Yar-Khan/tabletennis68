@@ -29,7 +29,7 @@ export function EnquiryDrawer({
     <Drawer
       open={open}
       onClose={onClose}
-      title="Your list"
+      title="Your order list"
       side="right"
       className="w-[min(28rem,100vw)]"
       footer={

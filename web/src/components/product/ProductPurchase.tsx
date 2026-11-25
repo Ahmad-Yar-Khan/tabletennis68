@@ -44,7 +44,7 @@ const listFormat = new Intl.ListFormat("en", { type: "conjunction" });
 
 /**
  * Everything the customer interacts with on a product page: option pills, quantity,
- * "Order on WhatsApp" (or "Ask about restock"), "Add to enquiry list", and on phones a
+ * "Order on WhatsApp" (or "Ask about restock"), "Add to order list", and on phones a
  * sticky bottom bar that appears once the main button has scrolled out of view.
  */
 export function ProductPurchase({
@@ -215,7 +215,7 @@ export function ProductPurchase({
               aria-describedby={hint ? hintId : undefined}
             >
               <ClipboardList aria-hidden />
-              Add to enquiry list
+              Add to order list
             </Button>
           )}
         </div>

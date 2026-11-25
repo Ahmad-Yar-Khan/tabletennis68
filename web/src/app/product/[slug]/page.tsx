@@ -154,7 +154,7 @@ export default async function ProductPage({
                     {brand.name}
                   </p>
                 ))}
-              <h1 className="text-4xl uppercase sm:text-5xl">{name}</h1>
+              <h1 className="text-3xl uppercase sm:text-5xl">{name}</h1>
 
               <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
                 <ProductPrice price={price} salePrice={salePrice} size="lg" />

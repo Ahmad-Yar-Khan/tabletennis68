@@ -26,7 +26,7 @@ export function BannerSlide({ banner, position, count, active }: BannerSlideProp
       aria-label={`${position + 1} of ${count}`}
       // Off-screen slides can't be tabbed into or read out.
       inert={!active}
-      className="relative flex min-h-[30rem] w-full shrink-0 snap-start snap-always items-end sm:min-h-[36rem] lg:min-h-[40rem] lg:items-center"
+      className="relative flex min-h-[24rem] w-full shrink-0 snap-start snap-always items-end sm:min-h-[36rem] lg:min-h-[40rem] lg:items-center"
     >
       {hasImage(image) && (
         <>
@@ -56,17 +56,17 @@ export function BannerSlide({ banner, position, count, active }: BannerSlideProp
         </>
       )}
 
-      <Container className="relative z-[2] pt-16 pb-24 sm:pb-32 lg:py-24">
+      <Container className="relative z-[2] pt-12 pb-20 sm:pt-16 sm:pb-32 lg:py-24">
         <div className="max-w-xl">
           {heading && (
-            <h2 className="text-5xl uppercase sm:text-6xl lg:text-7xl">
+            <h2 className="text-4xl uppercase sm:text-6xl lg:text-7xl">
               {heading}
             </h2>
           )}
           {subheading && (
             <p className="mt-4 text-lg text-white/85">{subheading}</p>
           )}
-          <div className="mt-8">
+          <div className="mt-6 sm:mt-8">
             <MagneticButton>
               <Button href={buttonLink || "/shop/"} size="lg">
                 {buttonText || "Shop now"}

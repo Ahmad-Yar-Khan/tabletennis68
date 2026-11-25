@@ -15,26 +15,20 @@ export function ProductBrowserFallback({
   products: ProductListItem[];
 }) {
   return (
-    <div className="lg:grid lg:grid-cols-[15rem_minmax(0,1fr)] lg:gap-8 xl:grid-cols-[16rem_minmax(0,1fr)] xl:gap-10">
-      <div aria-hidden className="hidden space-y-3 lg:block">
-        <Skeleton className="h-6 w-24" />
-        {Array.from({ length: 6 }, (_, i) => (
-          <Skeleton key={i} className="h-8 w-full" />
-        ))}
-      </div>
+    <div>
       <div className="min-w-0">
         <Skeleton className="h-12 w-full rounded-pill" />
         <div className="mt-3 flex min-h-16 items-center justify-between gap-3 py-2 lg:mt-4">
-          <Skeleton className="h-11 w-40 rounded-pill lg:hidden" />
-          <p className="text-sm font-medium tabular-nums lg:text-base">
+          <Skeleton className="h-11 w-40 rounded-pill lg:w-36" />
+          <Skeleton className="hidden h-11 w-52 rounded-pill lg:block" />
+          <p className="text-sm font-medium tabular-nums lg:ml-auto lg:text-base">
             {productCountLabel(products.length)}
           </p>
-          <Skeleton className="hidden h-11 w-52 rounded-pill lg:block" />
         </div>
         <ProductGrid
           products={products.slice(0, PAGE_SIZE)}
           priorityCount={4}
-          className="mt-4 md:grid-cols-3 lg:grid-cols-3 lg:gap-5 xl:gap-6"
+          className="mt-4"
         />
         <ShowMore
           shown={Math.min(PAGE_SIZE, products.length)}

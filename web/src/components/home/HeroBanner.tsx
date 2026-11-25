@@ -49,20 +49,20 @@ export function HeroBanner({
           <BannerSlider banners={banners} />
         </>
       ) : (
-        <Container className="relative z-[2] flex min-h-[30rem] flex-col justify-center py-16 pb-24 sm:min-h-[36rem] sm:py-24 sm:pb-32 lg:min-h-[40rem]">
+        <Container className="relative z-[2] flex min-h-[24rem] flex-col justify-center py-10 pb-16 sm:min-h-[36rem] sm:py-24 sm:pb-32 lg:min-h-[40rem]">
           <p className="font-display text-lg font-bold tracking-wider text-coral uppercase italic">
             Table tennis gear · Pakistan
           </p>
-          <h1 className="mt-3 max-w-3xl text-5xl uppercase sm:text-7xl lg:text-8xl">
+          <h1 className="mt-2 max-w-3xl text-[2.75rem] leading-none uppercase sm:mt-3 sm:text-7xl lg:text-8xl">
             Gear up.
             <br />
             <span className="text-coral">Play faster.</span>
           </h1>
-          <p className="mt-5 max-w-md text-lg text-muted-light">
+          <p className="mt-4 max-w-md text-base text-muted-light sm:mt-5 sm:text-lg">
             Genuine rackets, blades, rubbers and balls from the brands the pros
             use. Order in one tap on WhatsApp.
           </p>
-          <div className="mt-8 flex flex-wrap gap-3">
+          <div className="mt-6 flex flex-wrap gap-3 sm:mt-8">
             <MagneticButton>
               <Button href="/shop/" size="lg">
                 Shop now

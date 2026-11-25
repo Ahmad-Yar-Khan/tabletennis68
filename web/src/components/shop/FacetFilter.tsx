@@ -13,6 +13,8 @@ type FacetFilterProps = {
   onChange: (selected: string[]) => void;
   /** Show this many options until "Show all" is pressed. */
   initialVisible?: number;
+  /** Lay the options out in two columns (long brand lists in the desktop flyout). */
+  columns?: 1 | 2;
 };
 
 /** Multi-select checkbox list (categories, brands) with product counts. */
@@ -22,6 +24,7 @@ export function FacetFilter({
   selected,
   onChange,
   initialVisible = 6,
+  columns = 1,
 }: FacetFilterProps) {
   const id = useId();
   const [expanded, setExpanded] = useState(false);
@@ -44,7 +47,11 @@ export function FacetFilter({
 
   return (
     <FilterGroup legend={legend}>
-      <ul className="space-y-0.5">
+      <ul
+        className={cn(
+          columns === 2 ? "grid grid-cols-2 gap-x-2 gap-y-0.5" : "space-y-0.5",
+        )}
+      >
         {visible.map((option) => {
           const inputId = `${id}-${option.slug}`;
           return (
