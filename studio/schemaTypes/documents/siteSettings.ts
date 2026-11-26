@@ -15,7 +15,6 @@ export const siteSettings = defineType({
   icon: CogIcon,
   groups: [
     {name: 'contact', title: 'Contact', default: true},
-    {name: 'location', title: 'Location & hours'},
     {name: 'social', title: 'Social media'},
     {name: 'text', title: 'Website text'},
   ],
@@ -67,46 +66,6 @@ export const siteSettings = defineType({
       description: 'Optional. e.g. info@tabletennis68.com',
       validation: (rule) =>
         rule.email().error('This does not look like an email address, e.g. info@tabletennis68.com'),
-    }),
-    defineField({
-      name: 'address',
-      title: 'Shop address',
-      type: 'text',
-      group: 'location',
-      rows: 3,
-      description: 'The full address of the shop, as customers should read it.',
-    }),
-    defineField({
-      name: 'mapsUrl',
-      title: 'Google Maps link',
-      type: 'url',
-      group: 'location',
-      description:
-        'Open your shop in Google Maps, tap "Share", copy the link and paste it here. Used for the "Get directions" button.',
-      validation: optionalWebLink('https://maps.app.goo.gl/...'),
-    }),
-    defineField({
-      name: 'mapEmbedUrl',
-      title: 'Google Maps embed link',
-      type: 'url',
-      group: 'location',
-      description:
-        'For the map on the contact page. In Google Maps on a computer: Share → "Embed a map" → copy only the address inside src="...". It starts with https://www.google.com/maps/embed',
-      validation: (rule) =>
-        rule.custom((value) => {
-          if (!value) return true
-          return value.startsWith('https://www.google.com/maps/embed')
-            ? true
-            : 'This should start with https://www.google.com/maps/embed. Copy only the part inside src="...".'
-        }),
-    }),
-    defineField({
-      name: 'openingHours',
-      title: 'Opening hours',
-      type: 'text',
-      group: 'location',
-      rows: 4,
-      description: 'One line per day or group of days, e.g. "Mon–Sat: 11am – 9pm".',
     }),
     defineField({
       name: 'instagramUrl',

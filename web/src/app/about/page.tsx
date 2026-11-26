@@ -1,4 +1,4 @@
-import { ArrowRight, Clock, MapPin } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { WhyBuyFromUs } from "@/components/home/WhyBuyFromUs";
@@ -22,8 +22,6 @@ export default async function AboutPage() {
   const settings = await getSiteSettings();
   const shopName = settings?.shopName || "tabletennis68";
   const about = settings?.aboutText ?? [];
-  const address = settings?.address?.trim();
-  const hours = settings?.openingHours?.trim();
   const whatsappNumber = settings?.whatsappNumber;
 
   return (
@@ -53,7 +51,7 @@ export default async function AboutPage() {
           )}
         </article>
 
-        <aside aria-label="Visit or message us" className="lg:pt-1">
+        <aside aria-label="Message us" className="lg:pt-1">
           <div className="relative overflow-hidden rounded-card bg-ink p-6 text-white lg:sticky lg:top-24">
             {/* Faint table line */}
             <div
@@ -66,34 +64,13 @@ export default async function AboutPage() {
             />
             <div className="relative">
               <p className="font-display text-lg font-bold tracking-wider text-coral uppercase italic">
-                Come and play
+                Questions?
               </p>
-              <h2 className="mt-1 text-3xl uppercase">Visit or message us</h2>
-
-              {(address || hours) && (
-                <ul className="mt-5 space-y-4 text-sm">
-                  {address && (
-                    <li className="flex gap-3">
-                      <MapPin
-                        aria-hidden
-                        className="mt-0.5 size-4 shrink-0 text-coral"
-                      />
-                      <address className="whitespace-pre-line not-italic">
-                        {address}
-                      </address>
-                    </li>
-                  )}
-                  {hours && (
-                    <li className="flex gap-3">
-                      <Clock
-                        aria-hidden
-                        className="mt-0.5 size-4 shrink-0 text-coral"
-                      />
-                      <span className="whitespace-pre-line">{hours}</span>
-                    </li>
-                  )}
-                </ul>
-              )}
+              <h2 className="mt-1 text-3xl uppercase">Message us</h2>
+              <p className="mt-3 text-sm text-muted-light">
+                Not sure what to choose? Send us a message and we&apos;ll help
+                you pick the right gear.
+              </p>
 
               <div className="mt-6 flex flex-col gap-3">
                 {whatsappNumber && (

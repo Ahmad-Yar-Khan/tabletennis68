@@ -40,7 +40,7 @@ export function ContactActions({
           icon={<Phone aria-hidden className="size-6" />}
           label="Call us"
           value={phone}
-          hint="During opening hours"
+          hint="Talk to us directly"
           tone="dark"
         />
       )}

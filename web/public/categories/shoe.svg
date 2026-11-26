@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <defs>
+    <linearGradient id="upper" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f2404f"/>
+      <stop offset="1" stop-color="#c3172a"/>
+    </linearGradient>
+  </defs>
+  <ellipse cx="205" cy="312" rx="160" ry="13" fill="#0e0b0c" opacity="0.1"/>
+  <!-- outsole (gum) and midsole -->
+  <path d="M48 282 H342 Q362 282 362 294 Q362 306 342 306 H62 Q48 306 48 294 Z" fill="#b5502f"/>
+  <path d="M46 262 H340 Q364 262 364 276 Q364 290 340 290 H60 Q46 290 46 276 Z" fill="#faf7f5" stroke="#e2d9d6" stroke-width="2"/>
+  <path d="M70 296 h20 M110 296 h20 M150 296 h20 M190 296 h20 M230 296 h20 M270 296 h20 M310 296 h20" stroke="#8f3b20" stroke-width="4" stroke-linecap="round"/>
+  <!-- low-cut upper -->
+  <path d="M56 264 L64 190 Q68 172 90 174 L130 178 Q150 182 160 198 L178 214 Q192 222 222 224 L292 230 Q350 236 356 264 Z" fill="url(#upper)"/>
+  <!-- heel counter -->
+  <path d="M56 264 L62 202 Q88 204 106 220 Q120 242 118 264 Z" fill="#0e0b0c"/>
+  <!-- collar -->
+  <path d="M64 190 Q68 172 90 174 L130 178 Q118 192 98 192 Q80 192 64 190 Z" fill="#3b0a10"/>
+  <!-- toe cap -->
+  <path d="M276 229 L292 230 Q350 236 356 264 L268 264 Q282 248 276 229 Z" fill="#9f1222"/>
+  <!-- speed stripe -->
+  <path d="M146 252 L236 234 L250 240 L160 260 Z" fill="#ffffff" opacity="0.9"/>
+  <!-- laces -->
+  <g stroke="#ffffff" stroke-width="5" stroke-linecap="round">
+    <path d="M150 192 L170 186"/>
+    <path d="M164 204 L186 198"/>
+    <path d="M180 214 L204 210"/>
+  </g>
+  <path d="M82 178 Q92 160 112 164" fill="none" stroke="#0e0b0c" stroke-width="6" stroke-linecap="round"/>
+</svg>

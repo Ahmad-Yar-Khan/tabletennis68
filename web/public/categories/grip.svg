@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <defs>
+    <linearGradient id="bottle" x1="0" x2="1">
+      <stop offset="0" stop-color="#2a2223"/>
+      <stop offset="0.45" stop-color="#4a3e40"/>
+      <stop offset="1" stop-color="#1a1415"/>
+    </linearGradient>
+  </defs>
+  <ellipse cx="200" cy="336" rx="160" ry="15" fill="#0e0b0c" opacity="0.08"/>
+  <!-- cleaner spray bottle -->
+  <rect x="246" y="64" width="34" height="22" rx="4" fill="#0e0b0c"/>
+  <path d="M280 70 h26 v10 h-26z" fill="#0e0b0c"/>
+  <rect x="242" y="84" width="42" height="26" rx="6" fill="#e11d2e"/>
+  <rect x="226" y="108" width="74" height="222" rx="20" fill="url(#bottle)"/>
+  <rect x="236" y="168" width="54" height="96" rx="8" fill="#ffffff"/>
+  <rect x="246" y="184" width="34" height="8" rx="4" fill="#e11d2e"/>
+  <rect x="246" y="200" width="26" height="5" rx="2.5" fill="#c9bfbc"/>
+  <rect x="246" y="212" width="30" height="5" rx="2.5" fill="#c9bfbc"/>
+  <path d="M248 236 q15 -14 30 0" fill="none" stroke="#e11d2e" stroke-width="4" stroke-linecap="round"/>
+  <!-- edge tape roll, tape tail -->
+  <path d="M150 300 C 200 300 214 330 250 334" fill="none" stroke="#9f1222" stroke-width="16" stroke-linecap="round"/>
+  <circle cx="140" cy="226" r="90" fill="#e11d2e"/>
+  <circle cx="140" cy="226" r="90" fill="none" stroke="#9f1222" stroke-width="4"/>
+  <circle cx="140" cy="226" r="70" fill="none" stroke="#b3121f" stroke-width="1.5" opacity="0.6"/>
+  <circle cx="140" cy="226" r="56" fill="none" stroke="#b3121f" stroke-width="1.5" opacity="0.6"/>
+  <circle cx="140" cy="226" r="44" fill="#e8d2b0"/>
+  <circle cx="140" cy="226" r="32" fill="#faf7f5" stroke="#d2b98f" stroke-width="3"/>
+  <path d="M86 176 Q110 150 150 146" fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round" opacity="0.25"/>
+</svg>

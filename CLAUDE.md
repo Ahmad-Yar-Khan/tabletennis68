@@ -80,7 +80,7 @@ Examples: Butterfly, DHS, Stiga, Yasaka, Nittaku, Donic, Joola, Tibhar, Xiom, 72
 
 **banner**: `image`, `heading`, `subheading`, `buttonText`, `buttonLink`, `order`, `active`
 
-**siteSettings** (singleton): `shopName`, `whatsappNumber` (international format without +, e.g. `923001234567`), `phone`, `email`, `address`, `mapsUrl`, `mapEmbedUrl`, `openingHours`, `instagramUrl`, `facebookUrl`, `announcementText`, `deliveryInfo`, `aboutText` (Portable Text)
+**siteSettings** (singleton): `shopName`, `whatsappNumber` (international format without +, e.g. `923001234567`), `phone`, `email`, `instagramUrl`, `facebookUrl`, `announcementText`, `deliveryInfo`, `aboutText` (Portable Text)
 
 Studio must be owner-friendly: a clear desk structure (Products, Categories, Brands, Banners, Site Settings as a single doc), helpful field descriptions, validation messages in plain English, and list previews that show image, price and category.
 
@@ -88,13 +88,13 @@ Studio must be owner-friendly: a clear desk structure (Products, Categories, Bra
 
 | Route | Purpose |
 | --- | --- |
-| `/` | Home: hero banners, shop by category, new arrivals, featured products, shop by brand, why buy from us, store location strip |
+| `/` | Home: hero banners, shop by category, new arrivals, featured products, shop by brand, why buy from us |
 | `/shop` | All products with filters (category, brand, price range, in stock), sort (newest, price low→high, high→low, name), search |
 | `/category/[slug]` | Products in one category (same filter UI, category pre-selected) |
 | `/brand/[slug]` | Products from one brand |
 | `/product/[slug]` | Gallery, price/sale, option selectors, specs table, description, Order on WhatsApp, Add to enquiry list, related products |
 | `/enquiry` | Enquiry list page (also available as a slide-over drawer) |
-| `/contact` | Address, map, hours, WhatsApp/phone/email buttons, delivery info |
+| `/contact` | WhatsApp/phone/email buttons, delivery info, FAQs (online-only shop: no address, map or opening hours) |
 | `/about` | About the shop |
 | `/404` | Friendly not-found with links |
 

@@ -1,37 +1,29 @@
-import { Clock, MapPin, Navigation, Truck } from "lucide-react";
+import { Truck } from "lucide-react";
 import type { Metadata } from "next";
 import { ContactActions } from "@/components/contact/ContactActions";
 import { FaqSection } from "@/components/contact/FaqSection";
 import { InfoCard } from "@/components/contact/InfoCard";
-import { LazyMapEmbed } from "@/components/contact/LazyMapEmbed";
-import { OpeningHours } from "@/components/contact/OpeningHours";
 import { ListingHero } from "@/components/shop/ListingHero";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { WhatsAppIcon } from "@/components/ui/icons/WhatsAppIcon";
 import { faqs } from "@/lib/faq";
 import { getSiteSettings } from "@/lib/sanity/content";
-import { cn } from "@/lib/utils";
 import { buildWhatsAppLink, greetingMessage } from "@/lib/whatsapp";
 
 export const metadata: Metadata = {
   title: "Contact us",
   description:
-    "WhatsApp, call or visit tabletennis68. Shop address, opening hours, delivery across Pakistan and answers to common questions.",
+    "WhatsApp, call or email tabletennis68. Delivery across Pakistan and answers to common questions.",
   alternates: { canonical: "/contact/" },
 };
 
-/** Contact page: quick contact buttons, address + map, hours, delivery info and FAQs. */
+/** Contact page: quick contact buttons, delivery info and FAQs. */
 export default async function ContactPage() {
   const settings = await getSiteSettings();
   const shopName = settings?.shopName || "tabletennis68";
-  const address = settings?.address?.trim();
-  const hours = settings?.openingHours?.trim();
   const delivery = settings?.deliveryInfo?.trim();
-  const mapsUrl = settings?.mapsUrl;
-  const mapEmbedUrl = settings?.mapEmbedUrl;
   const whatsappNumber = settings?.whatsappNumber ?? null;
-  const hasCards = Boolean(address || mapsUrl || hours || delivery);
 
   return (
     <>
@@ -49,66 +41,13 @@ export default async function ContactPage() {
           shopName={shopName}
         />
 
-        {(hasCards || mapEmbedUrl) && (
-          <div
-            className={cn(
-              "mt-6 grid gap-4 sm:mt-8 sm:gap-6",
-              mapEmbedUrl
-                ? "lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]"
-                : "md:grid-cols-2",
-            )}
-          >
-            {hasCards && (
-              <div
-                className={cn(
-                  "grid content-start gap-4 sm:gap-6",
-                  !mapEmbedUrl && "contents",
-                )}
-              >
-                {(address || mapsUrl) && (
-                  <InfoCard icon={MapPin} title="Visit the shop">
-                    {address && (
-                      <address className="leading-relaxed whitespace-pre-line not-italic">
-                        {address}
-                      </address>
-                    )}
-                    {mapsUrl && (
-                      <Button
-                        href={mapsUrl}
-                        size="lg"
-                        fullWidth
-                        className={cn("sm:w-auto", address && "mt-4")}
-                      >
-                        <Navigation aria-hidden />
-                        Get directions
-                      </Button>
-                    )}
-                  </InfoCard>
-                )}
-
-                {hours && (
-                  <InfoCard icon={Clock} title="Opening hours">
-                    <OpeningHours text={hours} />
-                  </InfoCard>
-                )}
-
-                {delivery && (
-                  <InfoCard icon={Truck} title="Delivery">
-                    <p className="leading-relaxed whitespace-pre-line text-muted">
-                      {delivery}
-                    </p>
-                  </InfoCard>
-                )}
-              </div>
-            )}
-
-            {mapEmbedUrl && (
-              <LazyMapEmbed
-                src={mapEmbedUrl}
-                title={`Map showing the location of ${shopName}`}
-                className="aspect-[4/3] sm:aspect-video lg:aspect-auto lg:min-h-[28rem]"
-              />
-            )}
+        {delivery && (
+          <div className="mt-6 sm:mt-8">
+            <InfoCard icon={Truck} title="Delivery">
+              <p className="leading-relaxed whitespace-pre-line text-muted">
+                {delivery}
+              </p>
+            </InfoCard>
           </div>
         )}
 

@@ -3,7 +3,6 @@ import { HeroBanner } from "@/components/home/HeroBanner";
 import { NewArrivals } from "@/components/home/NewArrivals";
 import { ShopByBrand } from "@/components/home/ShopByBrand";
 import { ShopByCategory } from "@/components/home/ShopByCategory";
-import { StoreLocationStrip } from "@/components/home/StoreLocationStrip";
 import { WhyBuyFromUs } from "@/components/home/WhyBuyFromUs";
 import { getSiteContent } from "@/lib/sanity/content";
 
@@ -37,7 +36,6 @@ export default async function Home() {
       <FeaturedProducts products={featured} />
       <ShopByBrand brands={shopBrands} />
       <WhyBuyFromUs />
-      <StoreLocationStrip settings={settings} />
     </>
   );
 }

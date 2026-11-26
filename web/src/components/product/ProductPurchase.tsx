@@ -78,7 +78,7 @@ export function ProductPurchase({
   const buttonLabel = inStock ? "Order on WhatsApp" : "Ask about restock";
 
   const hint = !whatsappNumber
-    ? "WhatsApp ordering is not available right now. Please call or visit the shop."
+    ? "WhatsApp ordering is not available right now. Please call or email us instead."
     : inStock && !complete
       ? `Select ${listFormat.format(missing.map((o) => o.name.toLowerCase()))} to order.`
       : null;

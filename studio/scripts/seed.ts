@@ -387,8 +387,6 @@ const siteSettings = {
   whatsappNumber: '923000000000',
   phone: '0300 0000000',
   email: 'info@example.com',
-  address: 'Shop address goes here\nCity, Pakistan',
-  openingHours: 'Mon–Sat: 11am – 9pm\nSunday: Closed',
   announcementText: 'Order on WhatsApp · Cash on delivery all over Pakistan',
   deliveryInfo:
     'We deliver all over Pakistan by courier. Delivery usually takes 2–4 working days. Delivery charges are confirmed on WhatsApp before dispatch. Cash on delivery available.',

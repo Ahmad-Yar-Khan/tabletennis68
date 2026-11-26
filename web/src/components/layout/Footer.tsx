@@ -1,4 +1,4 @@
-import { Clock, Mail, MapPin, Phone } from "lucide-react";
+import { Mail, Phone } from "lucide-react";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { Container } from "@/components/ui/Container";
@@ -19,7 +19,7 @@ type FooterProps = {
 const linkClass =
   "inline-flex min-h-11 min-w-11 items-center gap-2.5 rounded-md text-muted-light transition-colors hover:text-white";
 
-/** Site footer: shop info, categories, contact, hours, socials, copyright. Empty fields are hidden. */
+/** Site footer: shop info, categories, contact, info links, socials, copyright. Empty fields are hidden. */
 export function Footer({ categories, settings }: FooterProps) {
   const shopName = settings?.shopName || "tabletennis68";
   const s = settings ?? ({} as Partial<SiteSettings>);
@@ -112,26 +112,6 @@ export function Footer({ categories, settings }: FooterProps) {
                 </a>
               </li>
             )}
-            {s.address && (
-              <li className="mt-1">
-                {s.mapsUrl ? (
-                  <a
-                    href={s.mapsUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={cn(linkClass, "items-start py-2")}
-                  >
-                    <MapPin aria-hidden className="mt-0.5 size-4 shrink-0" />
-                    <span className="whitespace-pre-line">{s.address}</span>
-                  </a>
-                ) : (
-                  <p className="flex items-start gap-2.5 py-2 text-muted-light">
-                    <MapPin aria-hidden className="mt-0.5 size-4 shrink-0" />
-                    <span className="whitespace-pre-line">{s.address}</span>
-                  </p>
-                )}
-              </li>
-            )}
             <li>
               <Link
                 href="/contact/"
@@ -143,15 +123,9 @@ export function Footer({ categories, settings }: FooterProps) {
           </ul>
         </FooterColumn>
 
-        {/* Hours + info */}
-        <FooterColumn title="Visit us">
-          {s.openingHours && (
-            <p className="flex items-start gap-2.5 text-sm leading-relaxed text-muted-light">
-              <Clock aria-hidden className="mt-0.5 size-4 shrink-0" />
-              <span className="whitespace-pre-line">{s.openingHours}</span>
-            </p>
-          )}
-          <ul className="mt-3">
+        {/* Info */}
+        <FooterColumn title="Info">
+          <ul>
             <li>
               <Link href="/about/" className={linkClass}>
                 About us

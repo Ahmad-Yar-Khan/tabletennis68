@@ -78,8 +78,8 @@ export function EnquirySummary({
             {sendLabel}
           </Button>
           <p id={hintId} className="text-sm text-crimson">
-            WhatsApp ordering is not available right now. Please call or visit
-            the shop.
+            WhatsApp ordering is not available right now. Please call or email
+            us instead.
           </p>
         </>
       )}

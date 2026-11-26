@@ -2,7 +2,7 @@ import type { LucideIcon } from "lucide-react";
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
-/** White card with an icon badge and a heading, used for the address, hours and delivery blocks. */
+/** White card with an icon badge and a heading, used for the delivery block. */
 export function InfoCard({
   icon: Icon,
   title,

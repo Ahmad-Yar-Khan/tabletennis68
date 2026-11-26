@@ -109,10 +109,6 @@ export type SiteSettings = {
   whatsappNumber: string | null;
   phone: string | null;
   email: string | null;
-  address: string | null;
-  mapsUrl: string | null;
-  mapEmbedUrl: string | null;
-  openingHours: string | null;
   instagramUrl: string | null;
   facebookUrl: string | null;
   announcementText: string | null;
