@@ -203,7 +203,7 @@ export function ProductPurchase({
       )}
 
       <div className="flex flex-col gap-2.5">
-        <div ref={actionsRef} className="flex flex-col gap-2.5 sm:flex-row">
+        <div ref={actionsRef} className="flex flex-col gap-2.5">
           {orderButton}
           {inStock && (
             <Button
